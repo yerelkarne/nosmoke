@@ -71,6 +71,12 @@ class StatsDataStore(private val context: Context) {
             prefs[lastStreakNotifyKey] = timestamp
         }
     }
+
+    suspend fun updateOnboardingCompleted(isCompleted: Boolean) {
+        context.statsDataStore.edit { prefs ->
+            prefs[onboardingKey] = isCompleted
+        }
+    }
 }
 
 data class SmokeFreeStats(

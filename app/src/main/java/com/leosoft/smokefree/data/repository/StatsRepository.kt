@@ -49,6 +49,10 @@ class StatsRepository(context: Context) {
     suspend fun updateLastStreakNotify(timestamp: Long) {
         dataStore.updateLastStreakNotify(timestamp)
     }
+
+    suspend fun updateOnboardingCompleted(isCompleted: Boolean) {
+        dataStore.updateOnboardingCompleted(isCompleted)
+    }
 }
 
 data class DashboardStats(
