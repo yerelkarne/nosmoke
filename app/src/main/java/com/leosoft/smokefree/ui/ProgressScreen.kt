@@ -104,5 +104,4 @@ private fun ProgressScreenPreview() {
             modifier = Modifier.padding(AppSpacing.m)
         )
     }
-    }
 }
