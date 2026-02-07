@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -66,6 +67,7 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
                         )
                     }
                 },
+                windowInsets = WindowInsets(0),
                 modifier = Modifier.height(50.dp),
                 navigationIcon = {
                     IconButton(onClick = onBack) {
