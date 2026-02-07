@@ -1,0 +1,83 @@
+[
+  {
+    "id": "smoke_20",
+    "title": "20 sigara içmedin",
+    "category": "Sigarasızlık",
+    "targetValue": 20,
+    "metricType": "NOT_SMOKED_COUNT",
+    "iconName": "badge_smoke_20",
+    "isPremium": false
+  },
+  {
+    "id": "smoke_100",
+    "title": "100 sigara içmedin",
+    "category": "Sigarasızlık",
+    "targetValue": 100,
+    "metricType": "NOT_SMOKED_COUNT",
+    "iconName": "badge_smoke_100",
+    "isPremium": false
+  },
+  {
+    "id": "smoke_1000",
+    "title": "1000 sigara içmedin",
+    "category": "Sigarasızlık",
+    "targetValue": 1000,
+    "metricType": "NOT_SMOKED_COUNT",
+    "iconName": "badge_smoke_1000",
+    "isPremium": false
+  },
+  {
+    "id": "smoke_10000",
+    "title": "10.000 sigara içmedin",
+    "category": "Sigarasızlık",
+    "targetValue": 10000,
+    "metricType": "NOT_SMOKED_COUNT",
+    "iconName": "badge_smoke_10000",
+    "isPremium": false
+  },
+  {
+    "id": "days_7",
+    "title": "7 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 7,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_7",
+    "isPremium": false
+  },
+  {
+    "id": "days_30",
+    "title": "30 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 30,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_30",
+    "isPremium": false
+  },
+  {
+    "id": "life_7",
+    "title": "7 gün ömür kazancı",
+    "category": "Ömür Kazancı",
+    "targetValue": 7,
+    "metricType": "LIFE_GAINED_DAYS",
+    "iconName": "badge_life_7",
+    "isPremium": false
+  },
+  {
+    "id": "onboarding_done",
+    "title": "Kararını verdin",
+    "category": "Uygulama",
+    "targetValue": 1,
+    "metricType": "APP_EVENT",
+    "iconName": "achievement_decision",
+    "isPremium": false
+  },
+  {
+    "id": "premium_user",
+    "title": "Premium destekçi",
+    "category": "Uygulama",
+    "targetValue": 1,
+    "metricType": "APP_EVENT",
+    "iconName": "achievement_premium",
+    "isPremium": true
+  }
+]

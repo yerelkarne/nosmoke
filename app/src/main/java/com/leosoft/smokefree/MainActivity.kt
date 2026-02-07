@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -14,17 +16,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.leosoft.smokefree.notifications.NotificationHelper
+import com.leosoft.smokefree.ui.BottomNavBar
+import com.leosoft.smokefree.ui.HealthScreen
 import com.leosoft.smokefree.ui.MessageDetailScreen
 import com.leosoft.smokefree.ui.MessagesScreen
 import com.leosoft.smokefree.ui.HomeScreen
+import com.leosoft.smokefree.ui.ProgressScreen
+import com.leosoft.smokefree.ui.RewardsScreen
 import com.leosoft.smokefree.ui.SmokeFreeTheme
+import com.leosoft.smokefree.ui.TrophiesScreen
+import com.leosoft.smokefree.ui.NavigationRoutes
 
 class MainActivity : ComponentActivity() {
     private val pendingMessageIdState = mutableStateOf(-1)
+    private val pendingRouteState = mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pendingMessageIdState.value = intent?.getIntExtra(NotificationHelper.EXTRA_MESSAGE_ID, -1) ?: -1
+        pendingRouteState.value = intent?.getStringExtra(NotificationHelper.EXTRA_ROUTE)
         setContent {
             SmokeFreeTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
@@ -37,24 +47,41 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    NavHost(navController = navController, startDestination = "home") {
-                        composable("home") {
-                            HomeScreen(
-                                onMessagesClick = { navController.navigate("list") }
-                            )
+                    LaunchedEffect(pendingRouteState.value) {
+                        pendingRouteState.value?.let { route ->
+                            navController.navigate(route)
+                            pendingRouteState.value = null
                         }
-                        composable("list") {
-                            MessagesScreen(
-                                onBack = { navController.popBackStack() },
-                                onMessageClick = { id -> navController.navigate("detail/$id") }
-                            )
-                        }
-                        composable("detail/{id}") { backStackEntry ->
-                            val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
-                            MessageDetailScreen(
-                                messageId = id,
-                                onBack = { navController.popBackStack() }
-                            )
+                    }
+
+                    Scaffold(bottomBar = { BottomNavBar(navController) }) { padding ->
+                        NavHost(
+                            navController = navController,
+                            startDestination = NavigationRoutes.Progress.route,
+                            modifier = Modifier.padding(padding)
+                        ) {
+                            composable(NavigationRoutes.Trophies.route) { TrophiesScreen() }
+                            composable(NavigationRoutes.Rewards.route) { RewardsScreen() }
+                            composable(NavigationRoutes.Progress.route) { ProgressScreen() }
+                            composable(NavigationRoutes.Health.route) { HealthScreen() }
+                            composable(NavigationRoutes.Motivation.route) {
+                                HomeScreen(
+                                    onMessagesClick = { navController.navigate("list") }
+                                )
+                            }
+                            composable("list") {
+                                MessagesScreen(
+                                    onBack = { navController.popBackStack() },
+                                    onMessageClick = { id -> navController.navigate("detail/$id") }
+                                )
+                            }
+                            composable("detail/{id}") { backStackEntry ->
+                                val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
+                                MessageDetailScreen(
+                                    messageId = id,
+                                    onBack = { navController.popBackStack() }
+                                )
+                            }
                         }
                     }
                 }
@@ -66,5 +93,6 @@ class MainActivity : ComponentActivity() {
         super.onNewIntent(intent)
         setIntent(intent)
         pendingMessageIdState.value = intent.getIntExtra(NotificationHelper.EXTRA_MESSAGE_ID, -1)
+        pendingRouteState.value = intent.getStringExtra(NotificationHelper.EXTRA_ROUTE)
     }
 }

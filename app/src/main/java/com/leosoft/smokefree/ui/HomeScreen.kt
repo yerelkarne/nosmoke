@@ -45,6 +45,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.leosoft.smokefree.ads.BannerAd
+import com.leosoft.smokefree.AppContainer
 import com.leosoft.smokefree.data.SettingsDataStore
 import com.leosoft.smokefree.notifications.AlarmScheduler
 import kotlinx.coroutines.launch
@@ -54,6 +55,7 @@ import kotlinx.coroutines.launch
 fun HomeScreen(onMessagesClick: () -> Unit) {
     val context = LocalContext.current
     val settingsStore = remember { SettingsDataStore(context) }
+    val achievementEngine = remember { AppContainer.achievementEngine(context) }
     val settings by settingsStore.settingsFlow.collectAsState(initial = null)
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -188,6 +190,7 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
                         // Ayarları kaydet ve bugünün bildirimlerini yeniden planla.
                         settingsStore.updateSettings(count, startMinutes, endMinutes)
                         AlarmScheduler(context).scheduleToday(count, startMinutes, endMinutes)
+                        achievementEngine.evaluate()
                         snackbarHostState.showSnackbar("Bildirimler planlandı")
                     }
                 }
