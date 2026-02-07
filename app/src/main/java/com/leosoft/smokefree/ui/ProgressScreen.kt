@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -19,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.ui.viewmodel.ProgressUiState
@@ -49,7 +51,14 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = "Gün ${state.dayCount}", style = MaterialTheme.typography.headlineMedium)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
+                    Icon(
+                        painter = painterResource(com.leosoft.smokefree.R.drawable.health_timer),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
+                    Text(text = "Gün ${state.dayCount}", style = MaterialTheme.typography.headlineMedium)
+                }
                 Text(text = "Streak: ${state.streakText}", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             CircularProgressIndicator(progress = state.progress, modifier = Modifier.size(84.dp), color = MaterialTheme.colorScheme.secondary)

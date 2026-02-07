@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import com.leosoft.smokefree.R
@@ -47,6 +49,11 @@ fun OnboardingScreen(onComplete: () -> Unit) {
         ) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Icon(
+                        painter = painterResource(R.drawable.mascot_brain),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.secondary
+                    )
                     Text(text = "Soru ${index + 1}/${questions.size}", style = MaterialTheme.typography.labelMedium)
                     Text(text = questions[index], style = MaterialTheme.typography.titleMedium)
                 }

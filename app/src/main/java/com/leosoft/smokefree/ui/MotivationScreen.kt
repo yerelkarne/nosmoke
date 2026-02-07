@@ -22,6 +22,7 @@ import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
@@ -43,6 +44,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.data.SettingsDataStore
@@ -96,6 +98,11 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
                 Column(modifier = Modifier.padding(AppSpacing.m), verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                     Text(text = stringResource(R.string.label_daily_quote), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
+                        Icon(
+                            painter = painterResource(R.drawable.mascot_brain),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary
+                        )
                         androidx.compose.foundation.layout.Box(
                             modifier = Modifier
                                 .width(4.dp)

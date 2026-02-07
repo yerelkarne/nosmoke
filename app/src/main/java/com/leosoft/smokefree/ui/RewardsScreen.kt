@@ -2,6 +2,7 @@ package com.leosoft.smokefree.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,7 +115,14 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
     ) {
         item {
             Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
-                Text(text = "Mevcut birikim", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(com.leosoft.smokefree.R.drawable.reward_gift),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.tertiary
+                    )
+                    Text(text = "Mevcut birikim", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
                 Text(text = "${savedMoney.toInt()}₺", style = MaterialTheme.typography.headlineLarge)
             }
         }
