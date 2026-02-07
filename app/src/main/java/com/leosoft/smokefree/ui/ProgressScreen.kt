@@ -3,9 +3,7 @@ package com.leosoft.smokefree.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -107,14 +105,6 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                         .padding(top = 12.dp)
                 )
             }
-        }
-
-        Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
-            Text(text = "Sigarasız süre", style = MaterialTheme.typography.titleLarge)
-            Text(text = smokeFreeDuration, style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(AppSpacing.s))
-            Text(text = "Kazanılan ömür", style = MaterialTheme.typography.titleLarge)
-            Text(text = lifeGainedDuration, style = MaterialTheme.typography.headlineMedium)
         }
 
         LazyVerticalGrid(columns = GridCells.Fixed(2), verticalArrangement = Arrangement.spacedBy(AppSpacing.m), horizontalArrangement = Arrangement.spacedBy(AppSpacing.m)) {
