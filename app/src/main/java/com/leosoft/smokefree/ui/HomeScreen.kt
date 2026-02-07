@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.leosoft.smokefree.R
@@ -85,7 +86,13 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Sigarasız Koç") },
+                title = {
+                    Text(
+                        text = "Sigarasız Koç",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                },
                 modifier = Modifier.height(50.dp),
                 actions = {
                     IconButton(onClick = onMessagesClick) {

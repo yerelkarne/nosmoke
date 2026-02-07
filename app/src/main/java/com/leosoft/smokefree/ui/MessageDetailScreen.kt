@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.leosoft.smokefree.R
 import com.leosoft.smokefree.data.Message
@@ -50,7 +51,13 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Telkin Detayı") },
+                title = {
+                    Text(
+                        text = "Telkin Detayı",
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                },
                 modifier = Modifier.height(50.dp),
                 navigationIcon = {
                     IconButton(onClick = onBack) {

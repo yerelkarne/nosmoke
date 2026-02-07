@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.leosoft.smokefree.R
 import com.leosoft.smokefree.ui.SmokeFreeTheme
 
@@ -40,7 +41,13 @@ fun OnboardingScreen(onComplete: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.title_onboarding)) },
+                title = {
+                    Text(
+                        text = stringResource(R.string.title_onboarding),
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                },
                 modifier = Modifier.height(50.dp)
             )
         }

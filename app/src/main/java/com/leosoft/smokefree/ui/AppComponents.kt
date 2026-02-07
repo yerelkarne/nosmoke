@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -32,7 +33,16 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppTopBar(title: String) {
     TopAppBar(
-        title = { Text(title, color = MaterialTheme.colorScheme.onPrimary) },
+        title = {
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
         modifier = Modifier.height(50.dp),
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
