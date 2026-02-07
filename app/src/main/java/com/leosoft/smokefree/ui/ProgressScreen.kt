@@ -4,10 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -153,8 +156,11 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
             onDismissRequest = { showGoalDialog.value = false },
             title = { Text(text = "Hedef seç") },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    GoalOption.entries.forEach { option ->
+                LazyColumn(
+                    modifier = Modifier.heightIn(max = 240.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    items(GoalOption.entries) { option ->
                         TextButton(
                             onClick = {
                                 selectedGoal.value = option
