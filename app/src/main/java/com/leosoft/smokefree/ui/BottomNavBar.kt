@@ -1,13 +1,19 @@
 package com.leosoft.smokefree.ui
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -28,7 +34,7 @@ fun BottomNavBar(navController: NavController) {
                 },
                 icon = {
                     Icon(
-                        painter = painterResource(id = getDrawableId(item.iconName)),
+                        imageVector = getNavIcon(item.iconName),
                         contentDescription = stringResource(item.labelRes)
                     )
                 },
@@ -38,13 +44,13 @@ fun BottomNavBar(navController: NavController) {
     }
 }
 
-private fun getDrawableId(name: String): Int {
+private fun getNavIcon(name: String): ImageVector {
     return when (name) {
-        "badge_smoke_20" -> com.leosoft.smokefree.R.drawable.badge_smoke_20
-        "reward_gift" -> com.leosoft.smokefree.R.drawable.reward_gift
-        "health_progress" -> com.leosoft.smokefree.R.drawable.health_progress
-        "health_heart" -> com.leosoft.smokefree.R.drawable.health_heart
-        "mascot_brain" -> com.leosoft.smokefree.R.drawable.mascot_brain
-        else -> com.leosoft.smokefree.R.drawable.badge_smoke_20
+        "badge_smoke_20" -> Icons.Filled.EmojiEvents
+        "reward_gift" -> Icons.Filled.CardGiftcard
+        "health_progress" -> Icons.Filled.TrendingUp
+        "health_heart" -> Icons.Filled.Favorite
+        "mascot_brain" -> Icons.Filled.Psychology
+        else -> Icons.Filled.EmojiEvents
     }
 }
