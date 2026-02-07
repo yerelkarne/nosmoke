@@ -13,14 +13,14 @@ import com.google.android.gms.ads.AdView
 @Composable
 fun BannerAd(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val adUnitId = "ca-app-pub-3940256099942544/6300978111"
+    val adUnitIdValue = "ca-app-pub-3940256099942544/6300978111"
 
     AndroidView(
         modifier = modifier,
         factory = { ctx ->
             AdView(ctx).apply {
                 setAdSize(getAdaptiveAdSize(ctx))
-                adUnitId = adUnitId
+                setAdUnitId(adUnitIdValue)
                 loadAd(AdRequest.Builder().build())
             }
         }
