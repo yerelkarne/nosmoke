@@ -8,10 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -50,6 +53,8 @@ fun ProgressScreen() {
 @Composable
 fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     val nowMillis = remember { mutableStateOf(System.currentTimeMillis()) }
+    val selectedGoal = remember { mutableStateOf(GoalOption.Day1) }
+    val showGoalDialog = remember { mutableStateOf(false) }
     LaunchedEffect(state.startTimestamp) {
         while (true) {
             nowMillis.value = System.currentTimeMillis()
@@ -59,7 +64,9 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
 
     val elapsedMillis = if (state.startTimestamp == 0L) 0L else (nowMillis.value - state.startTimestamp).coerceAtLeast(0L)
     val dayMillis = TimeUnit.DAYS.toMillis(1)
-    val progress = if (elapsedMillis == 0L) 0f else ((elapsedMillis % dayMillis).toFloat() / dayMillis.toFloat()).coerceIn(0f, 1f)
+    val elapsedDays = elapsedMillis.toDouble() / dayMillis.toDouble()
+    val targetDays = selectedGoal.value.days.coerceAtLeast(1)
+    val progress = if (elapsedMillis == 0L) 0f else (elapsedDays / targetDays.toDouble()).toFloat().coerceIn(0f, 1f)
     val progressPercent = (progress * 100).toInt()
     val smokeFreeDays = TimeUnit.MILLISECONDS.toDays(elapsedMillis).toInt()
 
@@ -85,6 +92,27 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                 modifier = Modifier.size(190.dp),
                 contentAlignment = Alignment.Center
             ) {
+                if (smokeFreeDays > 0) {
+                    Text(
+                        text = "Gün $smokeFreeDays",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(top = 6.dp, start = 6.dp)
+                            .clickable { showGoalDialog.value = true }
+                    )
+                } else {
+                    Text(
+                        text = selectedGoal.value.label,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(top = 6.dp, start = 6.dp)
+                            .clickable { showGoalDialog.value = true }
+                    )
+                }
                 CircularProgressIndicator(
                     progress = progress,
                     modifier = Modifier.size(190.dp),
@@ -95,14 +123,6 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                     text = "%$progressPercent",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = "Gün $smokeFreeDays",
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .align(Alignment.TopCenter)
-                        .padding(top = 12.dp)
                 )
             }
         }
@@ -138,6 +158,28 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
             }
         }
     }
+
+    if (showGoalDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showGoalDialog.value = false },
+            title = { Text(text = "Hedef seç") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    GoalOption.entries.forEach { option ->
+                        TextButton(
+                            onClick = {
+                                selectedGoal.value = option
+                                showGoalDialog.value = false
+                            }
+                        ) {
+                            Text(text = option.label)
+                        }
+                    }
+                }
+            },
+            confirmButton = {}
+        )
+    }
 }
 
 private fun formatDuration(durationMillis: Long): String {
@@ -160,6 +202,22 @@ private fun formatDecimal(value: Double): String {
     } else {
         "%.1f".format(rounded)
     }
+}
+
+private enum class GoalOption(val label: String, val days: Int) {
+    Day1("Gün 1", 1),
+    Day2("Gün 2", 2),
+    Day3("Gün 3", 3),
+    Day4("Gün 4", 4),
+    Day5("Gün 5", 5),
+    Day6("Gün 6", 6),
+    Week1("1 hafta", 7),
+    Week2("2 hafta", 14),
+    Week3("3 hafta", 21),
+    Month1("1 ay", 30),
+    Year1("1 yıl", 365),
+    Year5("5 yıl", 1825),
+    Year10("10 yıl", 3650)
 }
 
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true)
