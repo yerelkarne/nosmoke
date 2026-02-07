@@ -17,7 +17,8 @@ import com.leosoft.smokefree.data.db.entities.RewardItem
         RewardItem::class,
         HealthMilestone::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun achievementDao(): AchievementDao

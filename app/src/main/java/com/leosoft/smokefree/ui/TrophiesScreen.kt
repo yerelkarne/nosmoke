@@ -91,7 +91,7 @@ fun TrophiesScreen() {
     selected?.let { item ->
         val progress = item.progress
         val progressValue = progress?.progressValue ?: 0L
-        val percent = if (item.definition.targetValue == 0L) 0 else {
+        val percent = if (item.definition.targetValue == 0L) 0f else {
             (progressValue.toFloat() / item.definition.targetValue.toFloat()).coerceIn(0f, 1f)
         }
         AlertDialog(
