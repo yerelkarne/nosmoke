@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -28,10 +29,10 @@ fun BottomNavBar(navController: NavController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = getDrawableId(item.iconName)),
-                        contentDescription = item.label
+                        contentDescription = stringResource(item.labelRes)
                     )
                 },
-                label = { Text(item.label) }
+                label = { Text(stringResource(item.labelRes)) }
             )
         }
     }

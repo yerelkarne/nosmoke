@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,7 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.leosoft.smokefree.R
+import com.leosoft.smokefree.ui.SmokeFreeTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,7 +36,7 @@ fun OnboardingScreen(onComplete: () -> Unit) {
     var index by remember { mutableStateOf(0) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Başlangıç Soruları") }) }
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.title_onboarding)) }) }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -48,7 +53,9 @@ fun OnboardingScreen(onComplete: () -> Unit) {
             }
 
             Button(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp),
                 onClick = {
                     if (index < questions.lastIndex) {
                         index += 1
@@ -57,8 +64,16 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                     }
                 }
             ) {
-                Text(text = if (index < questions.lastIndex) "Devam" else "Başla")
+                Text(text = if (index < questions.lastIndex) stringResource(R.string.label_continue) else stringResource(R.string.label_start))
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun OnboardingPreview() {
+    SmokeFreeTheme {
+        OnboardingScreen(onComplete = {})
     }
 }

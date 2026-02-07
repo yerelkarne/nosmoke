@@ -25,13 +25,13 @@ import com.leosoft.smokefree.ui.BottomNavBar
 import com.leosoft.smokefree.ui.HealthScreen
 import com.leosoft.smokefree.ui.MessageDetailScreen
 import com.leosoft.smokefree.ui.MessagesScreen
-import com.leosoft.smokefree.ui.HomeScreen
 import com.leosoft.smokefree.ui.OnboardingScreen
 import com.leosoft.smokefree.ui.ProgressScreen
 import com.leosoft.smokefree.ui.RewardsScreen
 import com.leosoft.smokefree.ui.SmokeFreeTheme
 import com.leosoft.smokefree.ui.TrophiesScreen
 import com.leosoft.smokefree.ui.NavigationRoutes
+import com.leosoft.smokefree.ui.MotivationScreen
 
 class MainActivity : ComponentActivity() {
     private val pendingMessageIdState = mutableStateOf(-1)
@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                 composable(NavigationRoutes.Progress.route) { ProgressScreen() }
                                 composable(NavigationRoutes.Health.route) { HealthScreen() }
                                 composable(NavigationRoutes.Motivation.route) {
-                                    HomeScreen(
+                                    MotivationScreen(
                                         onMessagesClick = { navController.navigate("list") }
                                     )
                                 }
