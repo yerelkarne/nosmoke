@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import com.leosoft.smokefree.R
 import com.leosoft.smokefree.ads.BannerAd
 import com.leosoft.smokefree.AppContainer
 import com.leosoft.smokefree.data.SettingsDataStore
@@ -86,7 +87,7 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
                 title = { Text("Sigarasız Koç") },
                 actions = {
                     IconButton(onClick = onMessagesClick) {
-                        Icon(painterResource(id = android.R.drawable.ic_menu_agenda), contentDescription = "Sözler")
+                        Icon(painterResource(id = R.drawable.ic_message), contentDescription = "Sözler")
                     }
                 },
                 scrollBehavior = androidx.compose.material3.TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())

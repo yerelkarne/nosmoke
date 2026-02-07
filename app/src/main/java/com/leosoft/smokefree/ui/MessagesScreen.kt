@@ -19,7 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.leosoft.smokefree.R
 import com.leosoft.smokefree.data.Message
 import com.leosoft.smokefree.data.MessageRepository
 
@@ -40,7 +42,7 @@ fun MessagesScreen(onBack: () -> Unit, onMessageClick: (Int) -> Unit) {
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            painter = androidx.compose.ui.res.painterResource(android.R.drawable.ic_menu_revert),
+                            painter = painterResource(R.drawable.ic_arrow_back),
                             contentDescription = "Geri"
                         )
                     }
