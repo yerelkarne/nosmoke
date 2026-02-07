@@ -67,7 +67,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     val elapsedDays = elapsedMillis.toDouble() / dayMillis.toDouble()
     val targetDays = selectedGoal.value.days.coerceAtLeast(1)
     val progress = if (elapsedMillis == 0L) 0f else (elapsedDays / targetDays.toDouble()).toFloat().coerceIn(0f, 1f)
-    val progressPercent = progress * 100
+    val progressPercent = (progress * 100).toDouble()
 
     val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
     val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else dayMillis.toDouble() / cigarettesPerDay.toDouble()
@@ -83,6 +83,17 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(AppSpacing.l)
     ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = selectedGoal.value.label,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .align(Alignment.CenterStart)
+                    .clickable { showGoalDialog.value = true }
+            )
+        }
+
         Box(
             modifier = Modifier.fillMaxWidth(),
             contentAlignment = Alignment.Center
@@ -91,15 +102,6 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                 modifier = Modifier.size(190.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = selectedGoal.value.label,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(top = 6.dp, start = 6.dp)
-                        .clickable { showGoalDialog.value = true }
-                )
                 CircularProgressIndicator(
                     progress = progress,
                     modifier = Modifier.size(190.dp),
