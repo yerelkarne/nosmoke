@@ -51,8 +51,7 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.TopCenter)
-                                .padding(top = 5.dp)
+                                .align(Alignment.Center)
                         )
                     }
                 },
