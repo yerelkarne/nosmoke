@@ -8,11 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.view.WindowCompat
+import androidx.compose.ui.graphics.toArgb
 
 private val LightColors = lightColorScheme(
     primary = Color(0xFFFF5C6C),
@@ -83,6 +85,8 @@ fun SmokeFreeTheme(content: @Composable () -> Unit) {
     SideEffect {
         val window = (view.context as android.app.Activity).window
         WindowCompat.setDecorFitsSystemWindows(window, false)
+        window.statusBarColor = LightColors.primary.toArgb()
+        WindowInsetsControllerCompat(window, view).isAppearanceLightStatusBars = false
     }
 
     MaterialTheme(
