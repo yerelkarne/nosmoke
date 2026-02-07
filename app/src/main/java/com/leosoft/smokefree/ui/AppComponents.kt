@@ -34,19 +34,15 @@ import androidx.compose.ui.unit.dp
 fun AppTopBar(title: String) {
     TopAppBar(
         title = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                contentAlignment = Alignment.TopCenter
-            ) {
+            Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = title,
                     color = MaterialTheme.colorScheme.onPrimary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 4.dp)
+                        .align(Alignment.TopCenter)
+                        .padding(top = 5.dp)
                 )
             }
         },

@@ -44,18 +44,14 @@ fun OnboardingScreen(onComplete: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        contentAlignment = Alignment.TopCenter
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = stringResource(R.string.title_onboarding),
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 4.dp)
+                                .align(Alignment.TopCenter)
+                                .padding(top = 5.dp)
                         )
                     }
                 },

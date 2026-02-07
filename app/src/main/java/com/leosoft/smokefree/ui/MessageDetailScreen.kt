@@ -55,18 +55,14 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        contentAlignment = Alignment.TopCenter
-                    ) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = "Telkin Detayı",
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 4.dp)
+                                .align(Alignment.TopCenter)
+                                .padding(top = 5.dp)
                         )
                     }
                 },
