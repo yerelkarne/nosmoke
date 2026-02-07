@@ -51,7 +51,8 @@ fun MessagesScreen(onBack: () -> Unit, onMessageClick: (Int) -> Unit) {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.Center)
+                                .align(Alignment.TopCenter)
+                                .padding(top = 15.dp)
                         )
                     }
                 },
