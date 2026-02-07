@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.dp
 fun AppTopBar(title: String) {
     TopAppBar(
         title = { Text(title, color = MaterialTheme.colorScheme.onPrimary) },
+        modifier = Modifier.height(50.dp),
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
     )
 }

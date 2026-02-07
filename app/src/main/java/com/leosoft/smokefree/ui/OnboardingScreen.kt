@@ -38,7 +38,12 @@ fun OnboardingScreen(onComplete: () -> Unit) {
     var index by remember { mutableStateOf(0) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.title_onboarding)) }) }
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.title_onboarding)) },
+                modifier = Modifier.height(50.dp)
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier

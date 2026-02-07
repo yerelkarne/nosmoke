@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -50,6 +51,7 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = { Text("Telkin Detayı") },
+                modifier = Modifier.height(50.dp),
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

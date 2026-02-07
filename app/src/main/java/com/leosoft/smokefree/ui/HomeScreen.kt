@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -85,6 +86,7 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
         topBar = {
             TopAppBar(
                 title = { Text("Sigarasız Koç") },
+                modifier = Modifier.height(50.dp),
                 actions = {
                     IconButton(onClick = onMessagesClick) {
                         Icon(painterResource(id = R.drawable.ic_message), contentDescription = "Sözler")
