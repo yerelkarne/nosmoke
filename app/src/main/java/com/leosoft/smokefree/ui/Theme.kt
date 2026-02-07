@@ -86,7 +86,7 @@ fun SmokeFreeTheme(content: @Composable () -> Unit) {
     }
 
     MaterialTheme(
-        colorScheme = if (androidx.compose.foundation.isSystemInDarkTheme()) DarkColors else LightColors,
+        colorScheme = LightColors,
         typography = AppTypography,
         shapes = AppShapes,
         content = content

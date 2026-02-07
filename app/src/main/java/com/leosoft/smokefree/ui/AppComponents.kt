@@ -21,6 +21,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -94,7 +95,7 @@ fun StatCard(
 fun BadgeCard(
     title: String,
     progress: Float,
-    iconRes: Int,
+    icon: ImageVector,
     isUnlocked: Boolean,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
@@ -113,10 +114,10 @@ fun BadgeCard(
             val alpha = if (isUnlocked) 1f else 0.55f
             Box {
                 Icon(
-                    painter = painterResource(iconRes),
+                    imageVector = icon,
                     contentDescription = title,
                     modifier = Modifier.size(40.dp).alpha(alpha),
-                    tint = if (isUnlocked) Color.Unspecified else MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = if (isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (isUnlocked) {
                     Icon(
@@ -241,7 +242,7 @@ private fun BadgeCardPreview() {
         BadgeCard(
             title = "7 gün sigarasız",
             progress = 0.6f,
-            iconRes = com.leosoft.smokefree.R.drawable.badge_days_7,
+            icon = androidx.compose.material.icons.Icons.Filled.EmojiEvents,
             isUnlocked = false,
             modifier = Modifier.padding(AppSpacing.m)
         )

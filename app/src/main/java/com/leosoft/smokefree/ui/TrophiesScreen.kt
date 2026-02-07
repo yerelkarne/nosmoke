@@ -10,12 +10,18 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
@@ -78,7 +84,7 @@ private fun TrophiesContent(
             BadgeCard(
                 title = item.title,
                 progress = if (item.targetValue == 0L) 0f else (item.progressValue.toFloat() / item.targetValue.toFloat()).coerceIn(0f, 1f),
-                iconRes = drawableByName(item.iconName),
+                icon = iconByName(item.iconName),
                 isUnlocked = item.isUnlocked,
                 modifier = Modifier.padding(2.dp),
                 onClick = { onSelected(item) }
@@ -102,26 +108,26 @@ private fun TrophiesPreview() {
     }
 }
 
-private fun drawableByName(name: String): Int {
+private fun iconByName(name: String): ImageVector {
     return when (name) {
-        "badge_smoke_20" -> com.leosoft.smokefree.R.drawable.badge_smoke_20
-        "badge_smoke_100" -> com.leosoft.smokefree.R.drawable.badge_smoke_100
-        "badge_smoke_1000" -> com.leosoft.smokefree.R.drawable.badge_smoke_1000
-        "badge_smoke_10000" -> com.leosoft.smokefree.R.drawable.badge_smoke_10000
-        "badge_days_1" -> com.leosoft.smokefree.R.drawable.badge_days_1
-        "badge_days_3" -> com.leosoft.smokefree.R.drawable.badge_days_3
-        "badge_days_7" -> com.leosoft.smokefree.R.drawable.badge_days_7
-        "badge_days_10" -> com.leosoft.smokefree.R.drawable.badge_days_10
-        "badge_days_14" -> com.leosoft.smokefree.R.drawable.badge_days_14
-        "badge_days_30" -> com.leosoft.smokefree.R.drawable.badge_days_30
-        "badge_life_1" -> com.leosoft.smokefree.R.drawable.badge_life_1
-        "badge_life_3" -> com.leosoft.smokefree.R.drawable.badge_life_3
-        "badge_life_7" -> com.leosoft.smokefree.R.drawable.badge_life_7
-        "badge_life_10" -> com.leosoft.smokefree.R.drawable.badge_life_10
-        "badge_life_14" -> com.leosoft.smokefree.R.drawable.badge_life_14
-        "badge_life_30" -> com.leosoft.smokefree.R.drawable.badge_life_30
-        "achievement_decision" -> com.leosoft.smokefree.R.drawable.achievement_decision
-        "achievement_premium" -> com.leosoft.smokefree.R.drawable.achievement_premium
-        else -> com.leosoft.smokefree.R.drawable.badge_smoke_20
+        "badge_smoke_20" -> Icons.Filled.LocalFireDepartment
+        "badge_smoke_100" -> Icons.Filled.LocalFireDepartment
+        "badge_smoke_1000" -> Icons.Filled.LocalFireDepartment
+        "badge_smoke_10000" -> Icons.Filled.LocalFireDepartment
+        "badge_days_1" -> Icons.Filled.CalendarToday
+        "badge_days_3" -> Icons.Filled.CalendarToday
+        "badge_days_7" -> Icons.Filled.CalendarToday
+        "badge_days_10" -> Icons.Filled.CalendarToday
+        "badge_days_14" -> Icons.Filled.CalendarToday
+        "badge_days_30" -> Icons.Filled.CalendarToday
+        "badge_life_1" -> Icons.Filled.Star
+        "badge_life_3" -> Icons.Filled.Star
+        "badge_life_7" -> Icons.Filled.Star
+        "badge_life_10" -> Icons.Filled.Star
+        "badge_life_14" -> Icons.Filled.Star
+        "badge_life_30" -> Icons.Filled.Star
+        "achievement_decision" -> Icons.Filled.EmojiEvents
+        "achievement_premium" -> Icons.Filled.EmojiEvents
+        else -> Icons.Filled.EmojiEvents
     }
 }
