@@ -67,8 +67,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     val elapsedDays = elapsedMillis.toDouble() / dayMillis.toDouble()
     val targetDays = selectedGoal.value.days.coerceAtLeast(1)
     val progress = if (elapsedMillis == 0L) 0f else (elapsedDays / targetDays.toDouble()).toFloat().coerceIn(0f, 1f)
-    val progressPercent = (progress * 100).toInt()
-    val smokeFreeDays = TimeUnit.MILLISECONDS.toDays(elapsedMillis).toInt()
+    val progressPercent = progress * 100
 
     val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
     val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else dayMillis.toDouble() / cigarettesPerDay.toDouble()
@@ -92,27 +91,15 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                 modifier = Modifier.size(190.dp),
                 contentAlignment = Alignment.Center
             ) {
-                if (smokeFreeDays > 0) {
-                    Text(
-                        text = "Gün $smokeFreeDays",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(top = 6.dp, start = 6.dp)
-                            .clickable { showGoalDialog.value = true }
-                    )
-                } else {
-                    Text(
-                        text = selectedGoal.value.label,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .padding(top = 6.dp, start = 6.dp)
-                            .clickable { showGoalDialog.value = true }
-                    )
-                }
+                Text(
+                    text = selectedGoal.value.label,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(top = 6.dp, start = 6.dp)
+                        .clickable { showGoalDialog.value = true }
+                )
                 CircularProgressIndicator(
                     progress = progress,
                     modifier = Modifier.size(190.dp),
@@ -120,7 +107,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                     strokeWidth = 10.dp
                 )
                 Text(
-                    text = "%$progressPercent",
+                    text = "%${formatPercent(progressPercent)}",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -196,6 +183,15 @@ private fun formatDuration(durationMillis: Long): String {
 }
 
 private fun formatDecimal(value: Double): String {
+    val rounded = floor(value * 10) / 10.0
+    return if (rounded % 1.0 == 0.0) {
+        rounded.toInt().toString()
+    } else {
+        "%.1f".format(rounded)
+    }
+}
+
+private fun formatPercent(value: Double): String {
     val rounded = floor(value * 10) / 10.0
     return if (rounded % 1.0 == 0.0) {
         rounded.toInt().toString()
