@@ -134,7 +134,7 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
         }
         items(items) { item ->
             RewardCard(
-                title = item.title,
+                title = "Hedef: ${item.title}",
                 priceText = "Hedef: ${item.price}₺",
                 progress = item.progress,
                 progressText = "Hedefe %${(item.progress * 100).toInt()} yaklaştın",

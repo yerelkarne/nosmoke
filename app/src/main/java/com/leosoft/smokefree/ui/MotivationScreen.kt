@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.background
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,6 +29,8 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -103,11 +104,13 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.secondary
                         )
-                        androidx.compose.foundation.layout.Box(
+                        Icon(
+                            imageVector = Icons.Filled.FormatQuote,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier
-                                .width(4.dp)
-                                .height(48.dp)
-                                .background(MaterialTheme.colorScheme.secondary)
+                                .width(20.dp)
+                                .height(20.dp)
                         )
                         Text(
                             text = uiState.quote,

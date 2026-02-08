@@ -17,13 +17,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MonetizationOn
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SmokeFree
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -69,22 +67,12 @@ fun ProgressScreen() {
         topBar = {
             AppTopBar(
                 title = stringResource(R.string.title_progress),
-                actions = {
-                    IconButton(
-                        onClick = {
-                            cigarettesPerDayInput.value = state.cigarettesPerDay.toString()
-                            packPriceInput.value = state.packPrice.toString()
-                            packSizeInput.value = state.packSize.toString()
-                            smokeFreeDaysInput.value = state.smokeFreeDays.toString()
-                            showSettingsDialog.value = true
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Settings,
-                            contentDescription = "Ayarlar",
-                            tint = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
+                onSettingsClick = {
+                    cigarettesPerDayInput.value = state.cigarettesPerDay.toString()
+                    packPriceInput.value = state.packPrice.toString()
+                    packSizeInput.value = state.packSize.toString()
+                    smokeFreeDaysInput.value = state.smokeFreeDays.toString()
+                    showSettingsDialog.value = true
                 }
             )
         }
@@ -190,8 +178,15 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
         label = "progressIndicator"
     )
 
-    val notSmokedCount = state.notSmokedCount.toDouble()
     val savedMoney = state.savedMoney
+    val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
+    val notSmokedCount = if (elapsedMillis > 0L && cigarettesPerDay > 0) {
+        val millisPerCigarette = dayMillis.toDouble() / cigarettesPerDay.toDouble()
+        (elapsedMillis.toDouble() / millisPerCigarette).coerceAtLeast(0.0)
+    } else {
+        state.notSmokedCount.toDouble()
+    }
+    val displayedNotSmokedCount = floor(notSmokedCount).toLong()
     val lifeGainedMillis = (notSmokedCount * TimeUnit.MINUTES.toMillis(11)).roundToLong()
 
     val smokeFreeDuration = formatDuration(elapsedMillis)
@@ -266,7 +261,7 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
             )
             StatCard(
                 icon = Icons.Filled.SmokeFree,
-                value = formatDecimal(notSmokedCount),
+                value = displayedNotSmokedCount.toString(),
                 label = "İçilmeyen sigara",
                 modifier = Modifier.fillMaxWidth()
             )
@@ -309,15 +304,6 @@ private fun formatDuration(durationMillis: Long): String {
         "%d gün %02d:%02d:%02d".format(days, hours, minutes, seconds)
     } else {
         "%02d:%02d:%02d".format(hours, minutes, seconds)
-    }
-}
-
-private fun formatDecimal(value: Double): String {
-    val rounded = floor(value * 10) / 10.0
-    return if (rounded % 1.0 == 0.0) {
-        rounded.toInt().toString()
-    } else {
-        "%.1f".format(rounded)
     }
 }
 
