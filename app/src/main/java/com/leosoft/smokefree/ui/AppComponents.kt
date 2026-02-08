@@ -131,7 +131,7 @@ fun BadgeCard(
                         imageVector = Icons.Filled.CheckCircle,
                         contentDescription = "Unlocked",
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.align(Alignment.TopEnd).size(22.dp)
+                        modifier = Modifier.align(Alignment.TopEnd).size(28.dp)
                     )
                 }
             }
@@ -149,7 +149,7 @@ fun BadgeCard(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Locked",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(22.dp)
+                    modifier = Modifier.size(28.dp)
                 )
             }
         }
