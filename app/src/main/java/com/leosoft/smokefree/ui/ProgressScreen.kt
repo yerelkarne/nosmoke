@@ -7,11 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.clickable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -76,7 +75,14 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     }
     val targetDays = effectiveGoal.days.coerceAtLeast(1)
     val progress = if (elapsedMillis == 0L) 0f else (elapsedDays / targetDays.toDouble()).toFloat().coerceIn(0f, 1f)
-    val progressPercent = (progress * 100).toDouble()
+    val progressTarget = remember { mutableStateOf(0f) }
+    LaunchedEffect(Unit) {
+        progressTarget.value = progress
+    }
+    LaunchedEffect(progress) {
+        progressTarget.value = progress
+    }
+    val animatedProgress by animateFloatAsState(targetValue = progressTarget.value, label = "progressIndicator")
 
     val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
     val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else dayMillis.toDouble() / cigarettesPerDay.toDouble()
@@ -112,48 +118,44 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
-                    progress = progress,
+                    progress = animatedProgress,
                     modifier = Modifier.size(190.dp),
                     color = MaterialTheme.colorScheme.secondary,
                     strokeWidth = 10.dp
                 )
                 Text(
-                    text = "%${formatPercent(progressPercent)}",
+                    text = "%${formatPercent((animatedProgress * 100).toDouble())}",
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
 
-        LazyVerticalGrid(columns = GridCells.Fixed(2), verticalArrangement = Arrangement.spacedBy(AppSpacing.m), horizontalArrangement = Arrangement.spacedBy(AppSpacing.m)) {
-            item {
-                StatCard(
-                    iconRes = com.leosoft.smokefree.R.drawable.health_timer,
-                    value = smokeFreeDuration,
-                    label = "Sigarasız süre"
-                )
-            }
-            item {
-                StatCard(
-                    iconRes = com.leosoft.smokefree.R.drawable.reward_gift,
-                    value = "${formatDecimal(savedMoney)}₺",
-                    label = "Tasarruf"
-                )
-            }
-            item {
-                StatCard(
-                    iconRes = com.leosoft.smokefree.R.drawable.health_progress,
-                    value = lifeGainedDuration,
-                    label = "Kazanılan ömür"
-                )
-            }
-            item {
-                StatCard(
-                    iconRes = com.leosoft.smokefree.R.drawable.badge_smoke_20,
-                    value = formatDecimal(notSmokedCount),
-                    label = "İçilmeyen sigara"
-                )
-            }
+        Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.m)) {
+            StatCard(
+                iconRes = com.leosoft.smokefree.R.drawable.health_timer,
+                value = smokeFreeDuration,
+                label = "Sigarasız süre",
+                modifier = Modifier.fillMaxWidth()
+            )
+            StatCard(
+                iconRes = com.leosoft.smokefree.R.drawable.reward_gift,
+                value = "${formatDecimal(savedMoney)}₺",
+                label = "Tasarruf",
+                modifier = Modifier.fillMaxWidth()
+            )
+            StatCard(
+                iconRes = com.leosoft.smokefree.R.drawable.health_progress,
+                value = lifeGainedDuration,
+                label = "Kazanılan ömür",
+                modifier = Modifier.fillMaxWidth()
+            )
+            StatCard(
+                iconRes = com.leosoft.smokefree.R.drawable.badge_smoke_20,
+                value = formatDecimal(notSmokedCount),
+                label = "İçilmeyen sigara",
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 
