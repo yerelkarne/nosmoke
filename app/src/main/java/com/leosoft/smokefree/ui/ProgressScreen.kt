@@ -51,6 +51,9 @@ fun ProgressScreen() {
     val state by viewModel.uiState.collectAsState()
     val motivationViewModel: MotivationViewModel = viewModel()
     val motivationState by motivationViewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        motivationViewModel.refreshQuote()
+    }
 
     Scaffold(
         topBar = { AppTopBar(title = stringResource(R.string.title_progress)) }
