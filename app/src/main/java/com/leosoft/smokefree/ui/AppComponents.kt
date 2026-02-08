@@ -119,7 +119,7 @@ fun BadgeCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(AppSpacing.s)
         ) {
-            val badgeIconSize = 52.dp
+            val badgeIconSize = 44.dp
             val alpha = if (isUnlocked) 1f else 0.55f
             Box {
                 Icon(
