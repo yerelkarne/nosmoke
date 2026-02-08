@@ -13,6 +13,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material.icons.filled.SmokeFree
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -135,25 +140,25 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
 
         Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.m)) {
             StatCard(
-                iconRes = com.leosoft.smokefree.R.drawable.health_timer,
+                icon = Icons.Filled.Timer,
                 value = smokeFreeDuration,
                 label = "Sigarasız süre",
                 modifier = Modifier.fillMaxWidth()
             )
             StatCard(
-                iconRes = com.leosoft.smokefree.R.drawable.reward_gift,
+                icon = Icons.Filled.MonetizationOn,
                 value = "${formatDecimal(savedMoney)}₺",
                 label = "Tasarruf",
                 modifier = Modifier.fillMaxWidth()
             )
             StatCard(
-                iconRes = com.leosoft.smokefree.R.drawable.health_progress,
+                icon = Icons.Filled.Favorite,
                 value = lifeGainedDuration,
                 label = "Kazanılan ömür",
                 modifier = Modifier.fillMaxWidth()
             )
             StatCard(
-                iconRes = com.leosoft.smokefree.R.drawable.health_lungs,
+                icon = Icons.Filled.SmokeFree,
                 value = formatDecimal(notSmokedCount),
                 label = "İçilmeyen sigara",
                 modifier = Modifier.fillMaxWidth()

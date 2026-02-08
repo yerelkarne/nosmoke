@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -62,7 +62,7 @@ fun AppTopBar(title: String) {
 
 @Composable
 fun StatCard(
-    iconRes: Int,
+    icon: ImageVector,
     value: String,
     label: String,
     modifier: Modifier = Modifier
@@ -77,7 +77,7 @@ fun StatCard(
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)
         ) {
             Icon(
-                painter = painterResource(iconRes),
+                imageVector = icon,
                 contentDescription = label,
                 tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.size(24.dp)
@@ -234,7 +234,7 @@ fun MilestoneCard(
 private fun StatCardPreview() {
     SmokeFreeTheme {
         StatCard(
-            iconRes = com.leosoft.smokefree.R.drawable.health_timer,
+            icon = androidx.compose.material.icons.Icons.Filled.Timer,
             value = "24 saat",
             label = "Sigara içmiyorum",
             modifier = Modifier.fillMaxWidth().padding(AppSpacing.m)
