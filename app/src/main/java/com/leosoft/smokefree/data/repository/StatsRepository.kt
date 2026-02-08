@@ -14,15 +14,17 @@ class StatsRepository(context: Context) {
         val now = System.currentTimeMillis()
         val elapsedMillis = if (stats.startTimestamp == 0L) 0L else (now - stats.startTimestamp).coerceAtLeast(0L)
         val smokeFreeDays = TimeUnit.MILLISECONDS.toDays(elapsedMillis).toInt()
-        val notSmokedCount = (smokeFreeDays * stats.cigarettesPerDay).toLong()
-        val packsSaved = notSmokedCount.toDouble() / stats.packSize.toDouble()
+        val cigarettesPerDay = stats.cigarettesPerDay.coerceAtLeast(0)
+        val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else TimeUnit.DAYS.toMillis(1).toDouble() / cigarettesPerDay.toDouble()
+        val notSmokedCount = if (millisPerCigarette == 0.0) 0.0 else (elapsedMillis / millisPerCigarette)
+        val packsSaved = if (stats.packSize == 0) 0.0 else notSmokedCount / stats.packSize.toDouble()
         val savedMoney = packsSaved * stats.packPrice
         val lifeMinutes = notSmokedCount * 11
         val lifeDays = (lifeMinutes / 1440).toInt()
 
         DashboardStats(
             smokeFreeDays = smokeFreeDays,
-            notSmokedCount = notSmokedCount,
+            notSmokedCount = notSmokedCount.toLong(),
             savedMoney = savedMoney,
             lifeDays = lifeDays,
             elapsedMillis = elapsedMillis,
@@ -52,6 +54,15 @@ class StatsRepository(context: Context) {
 
     suspend fun updateOnboardingCompleted(isCompleted: Boolean) {
         dataStore.updateOnboardingCompleted(isCompleted)
+    }
+
+    suspend fun updateUserStats(
+        startTimestamp: Long,
+        cigarettesPerDay: Int,
+        packPrice: Int,
+        packSize: Int
+    ) {
+        dataStore.updateUserStats(startTimestamp, cigarettesPerDay, packPrice, packSize)
     }
 }
 

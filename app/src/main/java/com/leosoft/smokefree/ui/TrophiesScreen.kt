@@ -117,8 +117,8 @@ private fun TrophiesPreview() {
     SmokeFreeTheme {
         TrophiesContent(
             badges = listOf(
-                BadgeItemState("1", "20 sigara içmedin", "badge_smoke_20", 20, 10, false),
-                BadgeItemState("2", "7 gün sigarasız", "badge_days_7", 7, 7, true)
+                BadgeItemState("1", "20 sigara içmedin", "Sigarasızlık", "badge_smoke_20", 20, 10, false),
+                BadgeItemState("2", "7 gün sigarasız", "Gün Sayısı", "badge_days_7", 7, 7, true)
             ),
             modifier = Modifier.padding(AppSpacing.m),
             onSelected = {}

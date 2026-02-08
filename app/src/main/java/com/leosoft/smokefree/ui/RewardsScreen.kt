@@ -129,7 +129,7 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
                     )
                     Text(text = "Mevcut birikim", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
-                Text(text = "${savedMoney.toInt()}₺", style = MaterialTheme.typography.headlineLarge)
+            Text(text = "${formatCurrency(savedMoney)}₺", style = MaterialTheme.typography.headlineLarge)
             }
         }
         items(items) { item ->
@@ -167,4 +167,8 @@ private fun iconByRewardName(name: String): ImageVector {
         "reward_phone" -> Icons.Filled.PhoneIphone
         else -> Icons.Filled.CardGiftcard
     }
+}
+
+private fun formatCurrency(value: Double): String {
+    return "%.2f".format(value)
 }

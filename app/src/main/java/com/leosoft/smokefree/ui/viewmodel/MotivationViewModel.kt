@@ -14,6 +14,10 @@ class MotivationViewModel(application: Application) : AndroidViewModel(applicati
     val uiState: StateFlow<MotivationUiState> = _uiState
 
     init {
+        refreshQuote()
+    }
+
+    fun refreshQuote() {
         viewModelScope.launch {
             val messages = MessageRepository.loadMessages(getApplication())
             val quote = messages.randomOrNull()?.text ?: "Bugün de sigarasız kalmayı seçtin."

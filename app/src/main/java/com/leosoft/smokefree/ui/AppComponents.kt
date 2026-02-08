@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -32,14 +33,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(title: String) {
+fun AppTopBar(title: String, actions: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit = {}) {
     TopAppBar(
         title = {
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -54,6 +54,7 @@ fun AppTopBar(title: String) {
                 )
             }
         },
+        actions = actions,
         windowInsets = WindowInsets(0),
         modifier = Modifier.height(50.dp),
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -62,7 +63,7 @@ fun AppTopBar(title: String) {
 
 @Composable
 fun StatCard(
-    iconRes: Int,
+    icon: ImageVector,
     value: String,
     label: String,
     modifier: Modifier = Modifier
@@ -77,7 +78,7 @@ fun StatCard(
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)
         ) {
             Icon(
-                painter = painterResource(iconRes),
+                imageVector = icon,
                 contentDescription = label,
                 tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.size(24.dp)
@@ -122,7 +123,7 @@ fun BadgeCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = title,
-                    modifier = Modifier.size(40.dp).alpha(alpha),
+                    modifier = Modifier.size(52.dp).alpha(alpha),
                     tint = if (isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (isUnlocked) {
@@ -130,7 +131,7 @@ fun BadgeCard(
                         imageVector = Icons.Filled.CheckCircle,
                         contentDescription = "Unlocked",
                         tint = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.align(Alignment.TopEnd).size(16.dp)
+                        modifier = Modifier.align(Alignment.TopEnd).size(32.dp)
                     )
                 }
             }
@@ -148,7 +149,7 @@ fun BadgeCard(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Locked",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(32.dp)
                 )
             }
         }
@@ -234,7 +235,7 @@ fun MilestoneCard(
 private fun StatCardPreview() {
     SmokeFreeTheme {
         StatCard(
-            iconRes = com.leosoft.smokefree.R.drawable.health_timer,
+            icon = androidx.compose.material.icons.Icons.Filled.Timer,
             value = "24 saat",
             label = "Sigara içmiyorum",
             modifier = Modifier.fillMaxWidth().padding(AppSpacing.m)

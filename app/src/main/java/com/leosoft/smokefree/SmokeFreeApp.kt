@@ -29,9 +29,7 @@ class SmokeFreeApp : Application() {
             val statsRepository = AppContainer.statsRepository(this@SmokeFreeApp)
 
             statsRepository.ensureStartTimestamp()
-            if (database.achievementDao().getDefinitions().isEmpty()) {
-                achievementRepo.upsertDefinitions(seedLoader.loadAchievementDefinitions())
-            }
+            achievementRepo.upsertDefinitions(seedLoader.loadAchievementDefinitions())
             if (database.healthMilestoneDao().getMilestones().isEmpty()) {
                 healthRepo.insertMilestones(seedLoader.loadHealthMilestones())
             }

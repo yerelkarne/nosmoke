@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class ProgressViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = AppContainer.statsRepository(application)
@@ -17,17 +18,34 @@ class ProgressViewModel(application: Application) : AndroidViewModel(application
             startTimestamp = stats.stats.startTimestamp,
             elapsedMillis = stats.elapsedMillis,
             smokeFreeDays = stats.smokeFreeDays,
+            notSmokedCount = stats.notSmokedCount,
+            savedMoney = stats.savedMoney,
+            lifeDays = stats.lifeDays,
             cigarettesPerDay = stats.stats.cigarettesPerDay,
             packPrice = stats.stats.packPrice,
             packSize = stats.stats.packSize
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ProgressUiState())
+
+    fun updateUserStats(
+        startTimestamp: Long,
+        cigarettesPerDay: Int,
+        packPrice: Int,
+        packSize: Int
+    ) {
+        viewModelScope.launch {
+            repository.updateUserStats(startTimestamp, cigarettesPerDay, packPrice, packSize)
+        }
+    }
 }
 
 data class ProgressUiState(
     val startTimestamp: Long = 0L,
     val elapsedMillis: Long = 0L,
     val smokeFreeDays: Int = 0,
+    val notSmokedCount: Long = 0L,
+    val savedMoney: Double = 0.0,
+    val lifeDays: Int = 0,
     val cigarettesPerDay: Int = 0,
     val packPrice: Int = 0,
     val packSize: Int = 20
