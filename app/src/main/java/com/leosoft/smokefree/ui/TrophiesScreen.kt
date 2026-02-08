@@ -4,10 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.item
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -83,10 +82,12 @@ private fun TrophiesContent(
         horizontalArrangement = Arrangement.spacedBy(AppSpacing.m),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
     ) {
-        groupedItems.forEach { (category, categoryItems) ->
-            item(span = { GridItemSpan(maxLineSpan) }) {
+        groupedItems.entries.forEach { entry ->
+            val category = entry.key
+            val categoryItems = entry.value
+            items(listOf(category), span = { GridItemSpan(maxLineSpan) }) { title ->
                 Text(
-                    text = category,
+                    text = title,
                     style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(vertical = AppSpacing.xs)
                 )
