@@ -53,6 +53,15 @@ class StatsRepository(context: Context) {
     suspend fun updateOnboardingCompleted(isCompleted: Boolean) {
         dataStore.updateOnboardingCompleted(isCompleted)
     }
+
+    suspend fun updateUserStats(
+        startTimestamp: Long,
+        cigarettesPerDay: Int,
+        packPrice: Int,
+        packSize: Int
+    ) {
+        dataStore.updateUserStats(startTimestamp, cigarettesPerDay, packPrice, packSize)
+    }
 }
 
 data class DashboardStats(

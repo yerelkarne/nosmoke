@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppTopBar(title: String) {
+fun AppTopBar(title: String, actions: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit = {}) {
     TopAppBar(
         title = {
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -54,6 +54,7 @@ fun AppTopBar(title: String) {
                 )
             }
         },
+        actions = actions,
         windowInsets = WindowInsets(0),
         modifier = Modifier.height(50.dp),
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary)

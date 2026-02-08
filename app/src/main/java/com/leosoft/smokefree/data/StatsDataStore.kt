@@ -77,6 +77,20 @@ class StatsDataStore(private val context: Context) {
             prefs[onboardingKey] = isCompleted
         }
     }
+
+    suspend fun updateUserStats(
+        startTimestamp: Long,
+        cigarettesPerDay: Int,
+        packPrice: Int,
+        packSize: Int
+    ) {
+        context.statsDataStore.edit { prefs ->
+            prefs[startTimestampKey] = startTimestamp
+            prefs[cigarettesPerDayKey] = cigarettesPerDay
+            prefs[packPriceKey] = packPrice
+            prefs[packSizeKey] = packSize
+        }
+    }
 }
 
 data class SmokeFreeStats(

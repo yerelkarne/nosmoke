@@ -17,14 +17,18 @@ import androidx.compose.animation.core.tween
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MonetizationOn
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SmokeFree
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,12 +55,38 @@ fun ProgressScreen() {
     val state by viewModel.uiState.collectAsState()
     val motivationViewModel: MotivationViewModel = viewModel()
     val motivationState by motivationViewModel.uiState.collectAsState()
+    val showSettingsDialog = remember { mutableStateOf(false) }
+    val cigarettesPerDayInput = remember { mutableStateOf("") }
+    val packPriceInput = remember { mutableStateOf("") }
+    val packSizeInput = remember { mutableStateOf("") }
+    val smokeFreeDaysInput = remember { mutableStateOf("") }
     LaunchedEffect(Unit) {
         motivationViewModel.refreshQuote()
     }
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_progress)) }
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_progress),
+                actions = {
+                    IconButton(
+                        onClick = {
+                            cigarettesPerDayInput.value = state.cigarettesPerDay.toString()
+                            packPriceInput.value = state.packPrice.toString()
+                            packSizeInput.value = state.packSize.toString()
+                            smokeFreeDaysInput.value = state.smokeFreeDays.toString()
+                            showSettingsDialog.value = true
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Ayarlar",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         ProgressContent(
             state = state,
@@ -64,6 +94,61 @@ fun ProgressScreen() {
             modifier = Modifier
                 .padding(padding)
                 .padding(AppSpacing.m)
+        )
+    }
+
+    if (showSettingsDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showSettingsDialog.value = false },
+            title = { Text(text = "Ayarlar") },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
+                    TextField(
+                        value = cigarettesPerDayInput.value,
+                        onValueChange = { cigarettesPerDayInput.value = it },
+                        label = { Text("Günde kaç sigara") }
+                    )
+                    TextField(
+                        value = packPriceInput.value,
+                        onValueChange = { packPriceInput.value = it },
+                        label = { Text("Paket fiyatı (₺)") }
+                    )
+                    TextField(
+                        value = packSizeInput.value,
+                        onValueChange = { packSizeInput.value = it },
+                        label = { Text("Paket adedi") }
+                    )
+                    TextField(
+                        value = smokeFreeDaysInput.value,
+                        onValueChange = { smokeFreeDaysInput.value = it },
+                        label = { Text("Sigarasız geçen gün") }
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val cigarettesPerDay = cigarettesPerDayInput.value.toIntOrNull()
+                            ?.coerceAtLeast(0) ?: state.cigarettesPerDay
+                        val packPrice = packPriceInput.value.toIntOrNull()
+                            ?.coerceAtLeast(0) ?: state.packPrice
+                        val packSize = packSizeInput.value.toIntOrNull()
+                            ?.coerceAtLeast(1) ?: state.packSize
+                        val smokeFreeDays = smokeFreeDaysInput.value.toLongOrNull()
+                            ?.coerceAtLeast(0L) ?: state.smokeFreeDays.toLong()
+                        val startTimestamp = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(smokeFreeDays)
+                        viewModel.updateUserStats(startTimestamp, cigarettesPerDay, packPrice, packSize)
+                        showSettingsDialog.value = false
+                    }
+                ) {
+                    Text("Kaydet")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showSettingsDialog.value = false }) {
+                    Text("Vazgeç")
+                }
+            }
         )
     }
 }
