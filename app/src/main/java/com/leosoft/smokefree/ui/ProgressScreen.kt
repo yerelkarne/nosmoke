@@ -104,12 +104,9 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
         label = "progressIndicator"
     )
 
-    val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
-    val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else dayMillis.toDouble() / cigarettesPerDay.toDouble()
-    val notSmokedCount = if (millisPerCigarette == 0.0) 0.0 else (elapsedMillis / millisPerCigarette)
-    val pricePerCigarette = if (state.packSize == 0) 0.0 else state.packPrice.toDouble() / state.packSize.toDouble()
-    val savedMoney = notSmokedCount * pricePerCigarette
-    val lifeGainedMillis = (notSmokedCount * TimeUnit.MINUTES.toMillis(11)).toLong()
+    val notSmokedCount = state.notSmokedCount.toDouble()
+    val savedMoney = state.savedMoney
+    val lifeGainedMillis = TimeUnit.DAYS.toMillis(state.lifeDays.toLong())
 
     val smokeFreeDuration = formatDuration(elapsedMillis)
     val lifeGainedDuration = formatDuration(lifeGainedMillis)
@@ -285,6 +282,9 @@ private fun ProgressScreenPreview() {
                 startTimestamp = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(20),
                 elapsedMillis = TimeUnit.HOURS.toMillis(20),
                 smokeFreeDays = 0,
+                notSmokedCount = 6,
+                savedMoney = 30.0,
+                lifeDays = 0,
                 cigarettesPerDay = 6,
                 packPrice = 60,
                 packSize = 20
