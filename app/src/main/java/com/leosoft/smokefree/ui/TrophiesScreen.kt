@@ -40,7 +40,7 @@ fun TrophiesScreen() {
         topBar = { AppTopBar(title = stringResource(R.string.title_badges)) }
     ) { padding ->
         TrophiesContent(
-            items = state.badges,
+            badges = state.badges,
             modifier = Modifier
                 .padding(padding)
                 .padding(AppSpacing.m),
@@ -69,11 +69,11 @@ fun TrophiesScreen() {
 
 @Composable
 private fun TrophiesContent(
-    items: List<BadgeItemState>,
+    badges: List<BadgeItemState>,
     modifier: Modifier = Modifier,
     onSelected: (BadgeItemState) -> Unit
 ) {
-    val groupedItems = items
+    val groupedItems = badges
         .groupBy { it.category }
         .toSortedMap(compareBy { categorySortOrder(it) })
     LazyVerticalGrid(
@@ -116,7 +116,7 @@ private fun TrophiesContent(
 private fun TrophiesPreview() {
     SmokeFreeTheme {
         TrophiesContent(
-            items = listOf(
+            badges = listOf(
                 BadgeItemState("1", "20 sigara içmedin", "badge_smoke_20", 20, 10, false),
                 BadgeItemState("2", "7 gün sigarasız", "badge_days_7", 7, 7, true)
             ),
