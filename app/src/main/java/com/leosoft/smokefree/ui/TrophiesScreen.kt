@@ -74,7 +74,7 @@ private fun TrophiesContent(
     onSelected: (BadgeItemState) -> Unit
 ) {
     val groupedItems = badges
-        .groupBy { it.category }
+        .groupBy { badge -> badge.category }
         .toSortedMap(compareBy<String> { categorySortOrder(it) })
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
