@@ -99,7 +99,7 @@ fun RewardsScreen() {
             title = item.title
             priceText = item.price.toString()
             showDialog = true
-        )
+        }
     }
 
     if (showDialog) {
