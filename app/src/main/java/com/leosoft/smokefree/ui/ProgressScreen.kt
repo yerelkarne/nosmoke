@@ -2,7 +2,6 @@ package com.leosoft.smokefree.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -10,6 +9,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -95,7 +96,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     val lifeGainedDuration = formatDuration(lifeGainedMillis)
 
     Column(
-        modifier = modifier,
+        modifier = modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.l)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -151,7 +152,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth()
             )
             StatCard(
-                iconRes = com.leosoft.smokefree.R.drawable.badge_smoke_20,
+                iconRes = com.leosoft.smokefree.R.drawable.health_lungs,
                 value = formatDecimal(notSmokedCount),
                 label = "İçilmeyen sigara",
                 modifier = Modifier.fillMaxWidth()
