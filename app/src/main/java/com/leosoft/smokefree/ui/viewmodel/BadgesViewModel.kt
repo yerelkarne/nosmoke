@@ -19,6 +19,7 @@ class BadgesViewModel(application: Application) : AndroidViewModel(application) 
                 BadgeItemState(
                     id = definition.id,
                     title = definition.title,
+                    category = definition.category,
                     iconName = definition.iconName,
                     targetValue = definition.targetValue,
                     progressValue = progressMap[definition.id]?.progressValue ?: 0L,
@@ -37,6 +38,7 @@ data class BadgesUiState(
 data class BadgeItemState(
     val id: String,
     val title: String,
+    val category: String,
     val iconName: String,
     val targetValue: Long,
     val progressValue: Long,
