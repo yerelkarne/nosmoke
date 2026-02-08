@@ -75,7 +75,7 @@ private fun TrophiesContent(
 ) {
     val groupedItems = badges
         .groupBy { it.category }
-        .toSortedMap(compareBy { categorySortOrder(it) })
+        .toSortedMap(compareBy<String> { categorySortOrder(it) })
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier,
@@ -85,7 +85,7 @@ private fun TrophiesContent(
         groupedItems.entries.forEach { entry ->
             val category = entry.key
             val categoryItems = entry.value
-            items(listOf(category), span = { GridItemSpan(maxLineSpan) }) { title ->
+            items(listOf(category), span = { GridItemSpan(maxLineSpan) }) { title: String ->
                 Text(
                     text = title,
                     style = MaterialTheme.typography.titleMedium,
