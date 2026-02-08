@@ -149,7 +149,7 @@ fun BadgeCard(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Locked",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(40.dp)
+                    modifier = Modifier.size(52.dp)
                 )
             }
         }
