@@ -48,6 +48,7 @@ import com.leosoft.smokefree.R
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 import kotlin.math.floor
+import kotlin.math.roundToLong
 
 @Composable
 fun ProgressScreen() {
@@ -191,7 +192,7 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
 
     val notSmokedCount = state.notSmokedCount.toDouble()
     val savedMoney = state.savedMoney
-    val lifeGainedMillis = TimeUnit.DAYS.toMillis(state.lifeDays.toLong())
+    val lifeGainedMillis = (notSmokedCount * TimeUnit.MINUTES.toMillis(11)).roundToLong()
 
     val smokeFreeDuration = formatDuration(elapsedMillis)
     val lifeGainedDuration = formatDuration(lifeGainedMillis)
@@ -253,7 +254,7 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
             )
             StatCard(
                 icon = Icons.Filled.MonetizationOn,
-                value = "${formatDecimal(savedMoney)}₺",
+                value = "${formatCurrency(savedMoney)}₺",
                 label = "Tasarruf",
                 modifier = Modifier.fillMaxWidth()
             )
@@ -318,6 +319,10 @@ private fun formatDecimal(value: Double): String {
     } else {
         "%.1f".format(rounded)
     }
+}
+
+private fun formatCurrency(value: Double): String {
+    return "%.2f".format(value)
 }
 
 private fun formatPercent(value: Double): String {
