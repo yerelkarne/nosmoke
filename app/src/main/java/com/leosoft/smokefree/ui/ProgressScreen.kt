@@ -68,7 +68,13 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     val elapsedMillis = if (state.startTimestamp == 0L) 0L else (nowMillis.value - state.startTimestamp).coerceAtLeast(0L)
     val dayMillis = TimeUnit.DAYS.toMillis(1)
     val elapsedDays = elapsedMillis.toDouble() / dayMillis.toDouble()
-    val targetDays = selectedGoal.value.days.coerceAtLeast(1)
+    val effectiveGoal = if (selectedGoal.value.isDayBased) {
+        val nextDay = (kotlin.math.floor(elapsedDays).toInt() + 1).coerceIn(1, 6)
+        GoalOption.fromDay(nextDay)
+    } else {
+        selectedGoal.value
+    }
+    val targetDays = effectiveGoal.days.coerceAtLeast(1)
     val progress = if (elapsedMillis == 0L) 0f else (elapsedDays / targetDays.toDouble()).toFloat().coerceIn(0f, 1f)
     val progressPercent = (progress * 100).toDouble()
 
@@ -88,7 +94,7 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = selectedGoal.value.label,
+                text = effectiveGoal.label,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
@@ -208,20 +214,33 @@ private fun formatPercent(value: Double): String {
     }
 }
 
-private enum class GoalOption(val label: String, val days: Int) {
-    Day1("Gün 1", 1),
-    Day2("Gün 2", 2),
-    Day3("Gün 3", 3),
-    Day4("Gün 4", 4),
-    Day5("Gün 5", 5),
-    Day6("Gün 6", 6),
+private enum class GoalOption(val label: String, val days: Int, val isDayBased: Boolean = false) {
+    Day1("Gün 1", 1, true),
+    Day2("Gün 2", 2, true),
+    Day3("Gün 3", 3, true),
+    Day4("Gün 4", 4, true),
+    Day5("Gün 5", 5, true),
+    Day6("Gün 6", 6, true),
     Week1("1 hafta", 7),
     Week2("2 hafta", 14),
     Week3("3 hafta", 21),
     Month1("1 ay", 30),
     Year1("1 yıl", 365),
     Year5("5 yıl", 1825),
-    Year10("10 yıl", 3650)
+    Year10("10 yıl", 3650);
+
+    companion object {
+        fun fromDay(day: Int): GoalOption {
+            return when (day) {
+                1 -> Day1
+                2 -> Day2
+                3 -> Day3
+                4 -> Day4
+                5 -> Day5
+                else -> Day6
+            }
+        }
+    }
 }
 
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true)

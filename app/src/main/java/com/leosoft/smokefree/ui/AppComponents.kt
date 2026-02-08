@@ -156,7 +156,7 @@ fun RewardCard(
     priceText: String,
     progress: Float,
     progressText: String,
-    iconRes: Int,
+    icon: ImageVector,
     modifier: Modifier = Modifier
 ) {
     val animatedProgress by animateFloatAsState(targetValue = progress, label = "rewardProgress")
@@ -172,7 +172,7 @@ fun RewardCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(iconRes),
+                imageVector = icon,
                 contentDescription = title,
                 tint = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.size(32.dp)
@@ -194,7 +194,7 @@ fun MilestoneCard(
     description: String,
     progress: Float,
     statusText: String,
-    iconRes: Int,
+    icon: ImageVector,
     isCompleted: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -210,7 +210,7 @@ fun MilestoneCard(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                 Icon(
-                    painter = painterResource(iconRes),
+                    imageVector = icon,
                     contentDescription = title,
                     tint = progressColor,
                     modifier = Modifier.size(28.dp)
@@ -260,7 +260,7 @@ private fun RewardCardPreview() {
             priceText = "Hedef: 1500₺",
             progress = 0.35f,
             progressText = "Hedefe %35 yaklaştın",
-            iconRes = com.leosoft.smokefree.R.drawable.reward_shoes,
+            icon = androidx.compose.material.icons.Icons.Filled.CardGiftcard,
             modifier = Modifier.fillMaxWidth().padding(AppSpacing.m)
         )
     }
@@ -275,7 +275,7 @@ private fun MilestoneCardPreview() {
             description = "Kalp krizi riski azalır.",
             progress = 1f,
             statusText = "Tamamlandı",
-            iconRes = com.leosoft.smokefree.R.drawable.health_heart,
+            icon = androidx.compose.material.icons.Icons.Filled.Favorite,
             isCompleted = true,
             modifier = Modifier.fillMaxWidth().padding(AppSpacing.m)
         )

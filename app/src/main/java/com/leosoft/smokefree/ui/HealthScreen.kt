@@ -12,12 +12,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Air
+import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,7 +57,7 @@ private fun HealthContent(milestones: List<HealthMilestoneState>, modifier: Modi
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s), verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    painter = painterResource(com.leosoft.smokefree.R.drawable.health_heart),
+                    imageVector = Icons.Filled.Favorite,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.secondary
                 )
@@ -69,7 +74,7 @@ private fun HealthContent(milestones: List<HealthMilestoneState>, modifier: Modi
                 description = milestone.description,
                 progress = milestone.progress,
                 statusText = if (milestone.isCompleted) "Tamamlandı" else "Yaklaşıyor",
-                iconRes = drawableByHealthIcon(milestone.iconName),
+                icon = iconByHealthName(milestone.iconName),
                 isCompleted = milestone.isCompleted,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -91,12 +96,12 @@ private fun HealthPreview() {
     }
 }
 
-private fun drawableByHealthIcon(name: String): Int {
+private fun iconByHealthName(name: String): ImageVector {
     return when (name) {
-        "health_heart" -> com.leosoft.smokefree.R.drawable.health_heart
-        "health_lungs" -> com.leosoft.smokefree.R.drawable.health_lungs
-        "health_timer" -> com.leosoft.smokefree.R.drawable.health_timer
-        "health_progress" -> com.leosoft.smokefree.R.drawable.health_progress
-        else -> com.leosoft.smokefree.R.drawable.health_heart
+        "health_heart" -> Icons.Filled.Favorite
+        "health_lungs" -> Icons.Filled.Air
+        "health_timer" -> Icons.Filled.Timer
+        "health_progress" -> Icons.Filled.TrendingUp
+        else -> Icons.Filled.Favorite
     }
 }

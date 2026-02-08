@@ -17,6 +17,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.Headphones
+import androidx.compose.material.icons.filled.PhoneIphone
+import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -117,7 +123,7 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
             Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                 Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s), verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        painter = painterResource(com.leosoft.smokefree.R.drawable.reward_gift),
+                        imageVector = Icons.Filled.CardGiftcard,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.tertiary
                     )
@@ -132,7 +138,7 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
                 priceText = "Hedef: ${item.price}₺",
                 progress = item.progress,
                 progressText = "Hedefe %${(item.progress * 100).toInt()} yaklaştın",
-                iconRes = drawableByRewardIcon(item.iconName),
+                icon = iconByRewardName(item.iconName),
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -154,11 +160,11 @@ private fun RewardsPreview() {
     }
 }
 
-private fun drawableByRewardIcon(name: String): Int {
+private fun iconByRewardName(name: String): ImageVector {
     return when (name) {
-        "reward_ticket" -> com.leosoft.smokefree.R.drawable.reward_ticket
-        "reward_shoes" -> com.leosoft.smokefree.R.drawable.reward_shoes
-        "reward_phone" -> com.leosoft.smokefree.R.drawable.reward_phone
-        else -> com.leosoft.smokefree.R.drawable.reward_gift
+        "reward_ticket" -> Icons.Filled.ConfirmationNumber
+        "reward_shoes" -> Icons.Filled.Headphones
+        "reward_phone" -> Icons.Filled.PhoneIphone
+        else -> Icons.Filled.CardGiftcard
     }
 }
