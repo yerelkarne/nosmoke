@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -118,12 +119,13 @@ fun BadgeCard(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(AppSpacing.s)
         ) {
+            val badgeIconSize = 52.dp
             val alpha = if (isUnlocked) 1f else 0.55f
             Box {
                 Icon(
                     imageVector = icon,
                     contentDescription = title,
-                    modifier = Modifier.size(52.dp).alpha(alpha),
+                    modifier = Modifier.size(badgeIconSize).alpha(alpha),
                     tint = if (isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (isUnlocked) {
@@ -149,7 +151,7 @@ fun BadgeCard(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Locked",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(52.dp)
+                    modifier = Modifier.requiredSize(badgeIconSize)
                 )
             }
         }
