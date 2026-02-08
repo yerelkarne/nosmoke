@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MonetizationOn
@@ -32,11 +33,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.ui.viewmodel.ProgressUiState
+import com.leosoft.smokefree.ui.viewmodel.MotivationViewModel
 import com.leosoft.smokefree.R
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
@@ -46,12 +49,15 @@ import kotlin.math.floor
 fun ProgressScreen() {
     val viewModel: ProgressViewModel = viewModel()
     val state by viewModel.uiState.collectAsState()
+    val motivationViewModel: MotivationViewModel = viewModel()
+    val motivationState by motivationViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = { AppTopBar(title = stringResource(R.string.title_progress)) }
     ) { padding ->
         ProgressContent(
             state = state,
+            dailyQuote = motivationState.quote,
             modifier = Modifier
                 .padding(padding)
                 .padding(AppSpacing.m)
@@ -60,7 +66,7 @@ fun ProgressScreen() {
 }
 
 @Composable
-fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
+fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifier = Modifier) {
     val nowMillis = remember { mutableStateOf(System.currentTimeMillis()) }
     val selectedGoal = remember { mutableStateOf(GoalOption.Day1) }
     val showGoalDialog = remember { mutableStateOf(false) }
@@ -89,7 +95,11 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
     LaunchedEffect(progress) {
         progressTarget.value = progress
     }
-    val animatedProgress by animateFloatAsState(targetValue = progressTarget.value, label = "progressIndicator")
+    val animatedProgress by animateFloatAsState(
+        targetValue = progressTarget.value,
+        animationSpec = tween(durationMillis = 1400),
+        label = "progressIndicator"
+    )
 
     val cigarettesPerDay = state.cigarettesPerDay.coerceAtLeast(0)
     val millisPerCigarette = if (cigarettesPerDay == 0) 0.0 else dayMillis.toDouble() / cigarettesPerDay.toDouble()
@@ -128,14 +138,25 @@ fun ProgressContent(state: ProgressUiState, modifier: Modifier = Modifier) {
                     progress = animatedProgress,
                     modifier = Modifier.size(190.dp),
                     color = MaterialTheme.colorScheme.secondary,
-                    strokeWidth = 10.dp
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    strokeWidth = 14.dp
                 )
                 Text(
                     text = "%${formatPercent((animatedProgress * 100).toDouble())}",
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.displaySmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
+        }
+
+        if (dailyQuote.isNotBlank()) {
+            Text(
+                text = dailyQuote,
+                style = MaterialTheme.typography.bodyMedium,
+                fontStyle = FontStyle.Italic,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
 
         Column(verticalArrangement = Arrangement.spacedBy(AppSpacing.m)) {
@@ -265,6 +286,7 @@ private fun ProgressScreenPreview() {
                 packPrice = 60,
                 packSize = 20
             ),
+            dailyQuote = "Bugün de sigarasız kalmayı seçtin.",
             modifier = Modifier.padding(AppSpacing.m)
         )
     }
