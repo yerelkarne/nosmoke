@@ -36,6 +36,24 @@
     "isPremium": false
   },
   {
+    "id": "days_1",
+    "title": "1 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 1,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_1",
+    "isPremium": false
+  },
+  {
+    "id": "days_3",
+    "title": "3 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 3,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_3",
+    "isPremium": false
+  },
+  {
     "id": "days_7",
     "title": "7 gün sigarasız",
     "category": "Gün Sayısı",
@@ -45,12 +63,66 @@
     "isPremium": false
   },
   {
+    "id": "days_10",
+    "title": "10 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 10,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_10",
+    "isPremium": false
+  },
+  {
+    "id": "days_14",
+    "title": "14 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 14,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_14",
+    "isPremium": false
+  },
+  {
     "id": "days_30",
     "title": "30 gün sigarasız",
     "category": "Gün Sayısı",
     "targetValue": 30,
     "metricType": "SMOKE_FREE_DAYS",
     "iconName": "badge_days_30",
+    "isPremium": false
+  },
+  {
+    "id": "days_90",
+    "title": "90 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 90,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_90",
+    "isPremium": false
+  },
+  {
+    "id": "days_180",
+    "title": "180 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 180,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_180",
+    "isPremium": false
+  },
+  {
+    "id": "days_365",
+    "title": "365 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 365,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_365",
+    "isPremium": false
+  },
+  {
+    "id": "days_1825",
+    "title": "1825 gün sigarasız",
+    "category": "Gün Sayısı",
+    "targetValue": 1825,
+    "metricType": "SMOKE_FREE_DAYS",
+    "iconName": "badge_days_1825",
     "isPremium": false
   },
   {

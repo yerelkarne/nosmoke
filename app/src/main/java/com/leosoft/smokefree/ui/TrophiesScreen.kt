@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.item
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -71,26 +74,38 @@ private fun TrophiesContent(
     modifier: Modifier = Modifier,
     onSelected: (BadgeItemState) -> Unit
 ) {
-    val sortedItems = items.sortedWith(
-        compareBy<BadgeItemState> { !it.isUnlocked }
-            .thenBy { it.targetValue }
-            .thenBy { it.title }
-    )
+    val groupedItems = items
+        .groupBy { it.category }
+        .toSortedMap(compareBy { categorySortOrder(it) })
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(AppSpacing.m),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
     ) {
-        items(sortedItems) { item ->
-            BadgeCard(
-                title = item.title,
-                progress = if (item.targetValue == 0L) 0f else (item.progressValue.toFloat() / item.targetValue.toFloat()).coerceIn(0f, 1f),
-                icon = iconByName(item.iconName),
-                isUnlocked = item.isUnlocked,
-                modifier = Modifier.padding(2.dp),
-                onClick = { onSelected(item) }
+        groupedItems.forEach { (category, categoryItems) ->
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Text(
+                    text = category,
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(vertical = AppSpacing.xs)
+                )
+            }
+            val sortedItems = categoryItems.sortedWith(
+                compareBy<BadgeItemState> { !it.isUnlocked }
+                    .thenBy { it.targetValue }
+                    .thenBy { it.title }
             )
+            items(sortedItems) { item ->
+                BadgeCard(
+                    title = item.title,
+                    progress = if (item.targetValue == 0L) 0f else (item.progressValue.toFloat() / item.targetValue.toFloat()).coerceIn(0f, 1f),
+                    icon = iconByName(item.iconName),
+                    isUnlocked = item.isUnlocked,
+                    modifier = Modifier.padding(2.dp),
+                    onClick = { onSelected(item) }
+                )
+            }
         }
     }
 }
@@ -112,4 +127,14 @@ private fun TrophiesPreview() {
 
 private fun iconByName(name: String): ImageVector {
     return Icons.Filled.EmojiEvents
+}
+
+private fun categorySortOrder(category: String): Int {
+    return when (category) {
+        "Sigarasızlık" -> 0
+        "Gün Sayısı" -> 1
+        "Ömür Kazancı" -> 2
+        "Uygulama" -> 3
+        else -> 4
+    }
 }

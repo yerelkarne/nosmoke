@@ -21,8 +21,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CardGiftcard
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -125,7 +127,7 @@ fun BadgeCard(
                 )
                 if (isUnlocked) {
                     Icon(
-                        painter = painterResource(android.R.drawable.checkbox_on_background),
+                        imageVector = Icons.Filled.CheckCircle,
                         contentDescription = "Unlocked",
                         tint = MaterialTheme.colorScheme.tertiary,
                         modifier = Modifier.align(Alignment.TopEnd).size(16.dp)
@@ -142,10 +144,11 @@ fun BadgeCard(
             )
             LinearProgressIndicator(progress = animatedProgress, modifier = Modifier.fillMaxWidth())
             if (!isUnlocked) {
-                Text(
-                    text = "Kilitli",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                Icon(
+                    imageVector = Icons.Filled.Lock,
+                    contentDescription = "Locked",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(16.dp)
                 )
             }
         }
