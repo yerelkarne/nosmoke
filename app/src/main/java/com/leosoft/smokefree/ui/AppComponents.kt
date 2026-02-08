@@ -122,7 +122,7 @@ fun BadgeCard(
                 Icon(
                     imageVector = icon,
                     contentDescription = title,
-                    modifier = Modifier.size(40.dp).alpha(alpha),
+                    modifier = Modifier.size(52.dp).alpha(alpha),
                     tint = if (isUnlocked) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 if (isUnlocked) {
@@ -148,7 +148,7 @@ fun BadgeCard(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Locked",
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(22.dp)
                 )
             }
         }
