@@ -106,7 +106,7 @@ fun BadgeCard(
 ) {
     val animatedProgress by animateFloatAsState(targetValue = progress, label = "badgeProgress")
     Card(
-        modifier = modifier,
+        modifier = modifier.height(200.dp),
         onClick = onClick,
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {

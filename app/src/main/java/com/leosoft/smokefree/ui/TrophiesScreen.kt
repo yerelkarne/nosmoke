@@ -71,7 +71,11 @@ private fun TrophiesContent(
     modifier: Modifier = Modifier,
     onSelected: (BadgeItemState) -> Unit
 ) {
-    val sortedItems = items.sortedWith(compareBy<BadgeItemState> { it.targetValue }.thenBy { it.title })
+    val sortedItems = items.sortedWith(
+        compareBy<BadgeItemState> { !it.isUnlocked }
+            .thenBy { it.targetValue }
+            .thenBy { it.title }
+    )
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = modifier,

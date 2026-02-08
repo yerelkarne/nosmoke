@@ -70,14 +70,5 @@
     "metricType": "APP_EVENT",
     "iconName": "achievement_decision",
     "isPremium": false
-  },
-  {
-    "id": "premium_user",
-    "title": "Premium destekçi",
-    "category": "Uygulama",
-    "targetValue": 1,
-    "metricType": "APP_EVENT",
-    "iconName": "achievement_premium",
-    "isPremium": true
   }
 ]

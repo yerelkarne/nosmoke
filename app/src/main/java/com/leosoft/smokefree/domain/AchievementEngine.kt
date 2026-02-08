@@ -47,7 +47,6 @@ class AchievementEngine(
     private fun resolveAppEvent(definition: AchievementDefinition, stats: DashboardStats): Long {
         return when (definition.id) {
             "onboarding_done" -> if (stats.stats.onboardingCompleted) 1L else 0L
-            "premium_user" -> if (stats.stats.premiumPurchased) 1L else 0L
             else -> 0L
         }
     }
