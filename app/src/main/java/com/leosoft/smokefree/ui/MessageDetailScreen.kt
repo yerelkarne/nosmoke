@@ -35,8 +35,10 @@ import com.leosoft.smokefree.R
 import com.leosoft.smokefree.data.Message
 import com.leosoft.smokefree.data.MessageRepository
 import com.leosoft.smokefree.data.SettingsDataStore
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +48,9 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
     val settings by settingsStore.settingsFlow.collectAsState(initial = null)
     val messageState = remember { mutableStateOf<Message?>(null) }
     val coroutineScope = rememberCoroutineScope()
+    val progressViewModel: ProgressViewModel = viewModel()
+    val progressState by progressViewModel.uiState.collectAsState()
+    val showSettingsDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(messageId) {
         messageState.value = MessageRepository.findMessage(context, messageId)
@@ -80,7 +85,7 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { showSettingsDialog.value = true }) {
                         Icon(
                             imageVector = Icons.Filled.Settings,
                             contentDescription = "Ayarlar"
@@ -121,4 +126,17 @@ fun MessageDetailScreen(messageId: Int, onBack: () -> Unit) {
             }
         }
     }
+
+    SettingsDialog(
+        show = showSettingsDialog.value,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog.value = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog.value = false
+        }
+    )
 }

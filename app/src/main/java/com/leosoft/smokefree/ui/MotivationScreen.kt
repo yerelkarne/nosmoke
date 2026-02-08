@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,8 +28,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,6 +48,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.data.SettingsDataStore
 import com.leosoft.smokefree.notifications.AlarmScheduler
 import com.leosoft.smokefree.ui.viewmodel.MotivationViewModel
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.R
 import kotlinx.coroutines.launch
 
@@ -59,7 +57,9 @@ import kotlinx.coroutines.launch
 fun MotivationScreen(onMessagesClick: () -> Unit) {
     val context = LocalContext.current
     val viewModel: MotivationViewModel = viewModel()
+    val progressViewModel: ProgressViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
+    val progressState by progressViewModel.uiState.collectAsState()
     val settingsStore = remember { SettingsDataStore(context) }
     val settings by settingsStore.settingsFlow.collectAsState(initial = null)
     val snackbarHostState = remember { SnackbarHostState() }
@@ -69,6 +69,7 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
     var startMinutes by remember { mutableStateOf(8 * 60) }
     var endMinutes by remember { mutableStateOf(20 * 60) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(settings) {
         settings?.let {
@@ -85,7 +86,12 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
     val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_motivation)) },
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_motivation),
+                onSettingsClick = { showSettingsDialog = true }
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Column(
@@ -104,17 +110,9 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.secondary
                         )
-                        Icon(
-                            imageVector = Icons.Filled.FormatQuote,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
-                            modifier = Modifier
-                                .width(20.dp)
-                                .height(20.dp)
-                        )
                         Text(
                             text = uiState.quote,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
+                            style = MaterialTheme.typography.titleMedium.copy(fontStyle = FontStyle.Italic),
                             maxLines = 4,
                             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                         )
@@ -205,6 +203,19 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             }
         }
     }
+
+    SettingsDialog(
+        show = showSettingsDialog,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog = false
+        }
+    )
 }
 
 @Composable

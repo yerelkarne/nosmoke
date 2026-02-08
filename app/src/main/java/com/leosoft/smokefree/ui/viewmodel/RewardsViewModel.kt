@@ -24,7 +24,8 @@ class RewardsViewModel(application: Application) : AndroidViewModel(application)
                         title = reward.title,
                         price = reward.price,
                         iconName = reward.iconName,
-                        progress = (stats.savedMoney / reward.price).toFloat().coerceIn(0f, 1f)
+                        progress = (stats.savedMoney / reward.price).toFloat().coerceIn(0f, 1f),
+                        createdAt = reward.createdAt
                     )
                 }
             )
@@ -46,5 +47,6 @@ data class RewardItemState(
     val title: String,
     val price: Double,
     val iconName: String,
-    val progress: Float
+    val progress: Float,
+    val createdAt: Long
 )
