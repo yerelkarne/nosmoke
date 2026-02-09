@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -38,7 +39,7 @@ fun TrophiesScreen() {
     val state by viewModel.uiState.collectAsState()
     val progressState by progressViewModel.uiState.collectAsState()
     var selected by mutableStateOf<BadgeItemState?>(null)
-    var showSettingsDialog by mutableStateOf(false)
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
