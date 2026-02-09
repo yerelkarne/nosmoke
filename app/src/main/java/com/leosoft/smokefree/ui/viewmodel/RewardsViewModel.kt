@@ -35,6 +35,10 @@ class RewardsViewModel(application: Application) : AndroidViewModel(application)
     suspend fun addReward(item: RewardItem) {
         rewardsRepository.addReward(item)
     }
+
+    suspend fun deleteReward(id: String) {
+        rewardsRepository.deleteReward(id)
+    }
 }
 
 data class RewardsUiState(

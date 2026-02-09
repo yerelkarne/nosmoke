@@ -61,6 +61,7 @@ fun RewardsScreen() {
     var editingCreatedAt by remember { mutableStateOf<Long?>(null) }
     var editingIconName by remember { mutableStateOf("reward_gift") }
     var showSettingsDialog by remember { mutableStateOf(false) }
+    var showDeleteConfirm by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -138,12 +139,45 @@ fun RewardsScreen() {
                 }) { Text("Kaydet") }
             },
             dismissButton = {
+                Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
+                    if (editingId != null) {
+                        TextButton(onClick = { showDeleteConfirm = true }) { Text("Sil") }
+                    }
+                    TextButton(onClick = {
+                        showDialog = false
+                        editingId = null
+                        editingCreatedAt = null
+                        editingIconName = "reward_gift"
+                    }) { Text("İptal") }
+                }
+            }
+        )
+    }
+
+    if (showDeleteConfirm) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirm = false },
+            title = { Text("Emin misiniz?") },
+            text = { Text("Bu hedef silinecek.") },
+            confirmButton = {
                 TextButton(onClick = {
+                    val id = editingId
+                    if (id != null) {
+                        coroutineScope.launch {
+                            viewModel.deleteReward(id)
+                        }
+                    }
+                    showDeleteConfirm = false
                     showDialog = false
                     editingId = null
                     editingCreatedAt = null
                     editingIconName = "reward_gift"
-                }) { Text("İptal") }
+                    title = ""
+                    priceText = ""
+                }) { Text("Sil") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteConfirm = false }) { Text("Vazgeç") }
             }
         )
     }
@@ -188,7 +222,7 @@ private fun RewardsContent(
         }
         items(items) { item ->
             RewardCard(
-                title = "Başlık: ${item.title}",
+                title = item.title,
                 priceText = "Hedef: ${item.price}₺",
                 progress = item.progress,
                 progressText = "Hedefe %${(item.progress * 100).toInt()} yaklaştın",
