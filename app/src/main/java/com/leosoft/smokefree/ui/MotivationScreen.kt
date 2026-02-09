@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +27,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -68,12 +71,14 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
     var endMinutes by remember { mutableStateOf(20 * 60) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var showSettingsDialog by remember { mutableStateOf(false) }
+    var notificationsEnabled by remember { mutableStateOf(true) }
 
     LaunchedEffect(settings) {
         settings?.let {
             count = it.dailyCount
             startMinutes = it.startMinutes
             endMinutes = it.endMinutes
+            notificationsEnabled = it.notificationsEnabled
         }
     }
 
@@ -96,7 +101,8 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(AppSpacing.m),
+                .padding(AppSpacing.m)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
         ) {
             Card(modifier = Modifier.fillMaxWidth()) {
@@ -119,17 +125,39 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(AppSpacing.m), verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                     Text(text = stringResource(R.string.label_notifications), style = MaterialTheme.typography.titleLarge)
+                    Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "Bildirimler",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Switch(
+                            checked = notificationsEnabled,
+                            onCheckedChange = { enabled ->
+                                notificationsEnabled = enabled
+                                coroutineScope.launch {
+                                    settingsStore.updateNotificationsEnabled(enabled)
+                                }
+                                if (enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                                    ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                }
+                            }
+                        )
+                    }
                     Text(text = "Günlük bildirim sayısı: $count", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Slider(
                         value = count.toFloat(),
                         onValueChange = { count = it.toInt() },
                         valueRange = 3f..12f,
-                        steps = 8
+                        steps = 8,
+                        enabled = notificationsEnabled
                     )
-                    TimePickerRow(label = "Başlangıç", minutes = startMinutes) {
+                    TimePickerRow(label = "Başlangıç", minutes = startMinutes, enabled = notificationsEnabled) {
                         showTimePicker(context, startMinutes) { startMinutes = it }
                     }
-                    TimePickerRow(label = "Bitiş", minutes = endMinutes) {
+                    TimePickerRow(label = "Bitiş", minutes = endMinutes, enabled = notificationsEnabled) {
                         showTimePicker(context, endMinutes) { endMinutes = it }
                     }
                     Text(
@@ -187,8 +215,12 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
                     errorMessage = null
                     coroutineScope.launch {
                         settingsStore.updateSettings(count, startMinutes, endMinutes)
-                        AlarmScheduler(context).scheduleToday(count, startMinutes, endMinutes)
-                        snackbarHostState.showSnackbar("Bildirimler planlandı")
+                        if (notificationsEnabled) {
+                            AlarmScheduler(context).scheduleToday(count, startMinutes, endMinutes)
+                            snackbarHostState.showSnackbar("Bildirimler planlandı")
+                        } else {
+                            snackbarHostState.showSnackbar("Bildirimler kapalı")
+                        }
                     }
                 }
             ) {
@@ -212,11 +244,11 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
 }
 
 @Composable
-private fun TimePickerRow(label: String, minutes: Int, onClick: () -> Unit) {
+private fun TimePickerRow(label: String, minutes: Int, enabled: Boolean = true, onClick: () -> Unit) {
     val timeText = String.format("%02d:%02d", minutes / 60, minutes % 60)
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
         Text(text = label, style = MaterialTheme.typography.bodyMedium)
-        TextButton(onClick = onClick) { Text(text = timeText) }
+        TextButton(onClick = onClick, enabled = enabled) { Text(text = timeText) }
     }
 }
 
