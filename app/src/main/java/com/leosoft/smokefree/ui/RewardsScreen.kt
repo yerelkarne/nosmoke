@@ -114,13 +114,14 @@ fun RewardsScreen() {
             },
             confirmButton = {
                 TextButton(onClick = {
+                    val trimmedTitle = title.trim()
                     val price = priceText.toDoubleOrNull() ?: 0.0
-                    if (title.isNotBlank() && price > 0) {
+                    if (trimmedTitle.isNotBlank() && price > 0) {
                         coroutineScope.launch {
                             viewModel.addReward(
                                 RewardItem(
                                     id = editingId ?: "reward_${System.currentTimeMillis()}",
-                                    title = title,
+                                    title = trimmedTitle,
                                     price = price,
                                     iconName = editingIconName,
                                     createdAt = editingCreatedAt ?: System.currentTimeMillis()
@@ -187,7 +188,7 @@ private fun RewardsContent(
         }
         items(items) { item ->
             RewardCard(
-                title = item.title,
+                title = "Başlık: ${item.title}",
                 priceText = "Hedef: ${item.price}₺",
                 progress = item.progress,
                 progressText = "Hedefe %${(item.progress * 100).toInt()} yaklaştın",
