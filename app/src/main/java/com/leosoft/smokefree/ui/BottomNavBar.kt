@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -38,9 +39,26 @@ fun BottomNavBar(navController: NavController) {
                         contentDescription = stringResource(item.labelRes)
                     )
                 },
-                label = { Text(stringResource(item.labelRes)) }
+                label = {
+                    val labelText = stringResource(item.labelRes)
+                    Text(
+                        text = truncateNavLabel(labelText),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             )
         }
+    }
+}
+
+private const val navLabelMaxLength = 8
+
+private fun truncateNavLabel(label: String): String {
+    return if (label.length <= navLabelMaxLength) {
+        label
+    } else {
+        "${label.take(navLabelMaxLength)}…"
     }
 }
 

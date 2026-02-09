@@ -17,17 +17,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.background
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -44,12 +44,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.data.SettingsDataStore
 import com.leosoft.smokefree.notifications.AlarmScheduler
 import com.leosoft.smokefree.ui.viewmodel.MotivationViewModel
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.R
 import kotlinx.coroutines.launch
 
@@ -58,7 +58,9 @@ import kotlinx.coroutines.launch
 fun MotivationScreen(onMessagesClick: () -> Unit) {
     val context = LocalContext.current
     val viewModel: MotivationViewModel = viewModel()
+    val progressViewModel: ProgressViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
+    val progressState by progressViewModel.uiState.collectAsState()
     val settingsStore = remember { SettingsDataStore(context) }
     val settings by settingsStore.settingsFlow.collectAsState(initial = null)
     val snackbarHostState = remember { SnackbarHostState() }
@@ -68,12 +70,15 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
     var startMinutes by remember { mutableStateOf(8 * 60) }
     var endMinutes by remember { mutableStateOf(20 * 60) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showSettingsDialog by remember { mutableStateOf(false) }
+    var notificationsEnabled by remember { mutableStateOf(true) }
 
     LaunchedEffect(settings) {
         settings?.let {
             count = it.dailyCount
             startMinutes = it.startMinutes
             endMinutes = it.endMinutes
+            notificationsEnabled = it.notificationsEnabled
         }
     }
 
@@ -84,34 +89,29 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
     val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_motivation)) },
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_motivation),
+                onSettingsClick = { showSettingsDialog = true }
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(AppSpacing.m),
+                .padding(AppSpacing.m)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
         ) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(AppSpacing.m), verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                     Text(text = stringResource(R.string.label_daily_quote), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
-                        Icon(
-                            painter = painterResource(R.drawable.mascot_brain),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary
-                        )
-                        androidx.compose.foundation.layout.Box(
-                            modifier = Modifier
-                                .width(4.dp)
-                                .height(48.dp)
-                                .background(MaterialTheme.colorScheme.secondary)
-                        )
                         Text(
                             text = uiState.quote,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
+                            style = MaterialTheme.typography.titleMedium.copy(fontStyle = FontStyle.Italic),
                             maxLines = 4,
                             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                         )
@@ -125,17 +125,39 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(AppSpacing.m), verticalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
                     Text(text = stringResource(R.string.label_notifications), style = MaterialTheme.typography.titleLarge)
+                    Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = "Bildirimler",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Switch(
+                            checked = notificationsEnabled,
+                            onCheckedChange = { enabled ->
+                                notificationsEnabled = enabled
+                                coroutineScope.launch {
+                                    settingsStore.updateNotificationsEnabled(enabled)
+                                }
+                                if (enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+                                    ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                                }
+                            }
+                        )
+                    }
                     Text(text = "Günlük bildirim sayısı: $count", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Slider(
                         value = count.toFloat(),
                         onValueChange = { count = it.toInt() },
                         valueRange = 3f..12f,
-                        steps = 8
+                        steps = 8,
+                        enabled = notificationsEnabled
                     )
-                    TimePickerRow(label = "Başlangıç", minutes = startMinutes) {
+                    TimePickerRow(label = "Başlangıç", minutes = startMinutes, enabled = notificationsEnabled) {
                         showTimePicker(context, startMinutes) { startMinutes = it }
                     }
-                    TimePickerRow(label = "Bitiş", minutes = endMinutes) {
+                    TimePickerRow(label = "Bitiş", minutes = endMinutes, enabled = notificationsEnabled) {
                         showTimePicker(context, endMinutes) { endMinutes = it }
                     }
                     Text(
@@ -193,8 +215,12 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
                     errorMessage = null
                     coroutineScope.launch {
                         settingsStore.updateSettings(count, startMinutes, endMinutes)
-                        AlarmScheduler(context).scheduleToday(count, startMinutes, endMinutes)
-                        snackbarHostState.showSnackbar("Bildirimler planlandı")
+                        if (notificationsEnabled) {
+                            AlarmScheduler(context).scheduleToday(count, startMinutes, endMinutes)
+                            snackbarHostState.showSnackbar("Bildirimler planlandı")
+                        } else {
+                            snackbarHostState.showSnackbar("Bildirimler kapalı")
+                        }
                     }
                 }
             ) {
@@ -202,14 +228,27 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             }
         }
     }
+
+    SettingsDialog(
+        show = showSettingsDialog,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog = false
+        }
+    )
 }
 
 @Composable
-private fun TimePickerRow(label: String, minutes: Int, onClick: () -> Unit) {
+private fun TimePickerRow(label: String, minutes: Int, enabled: Boolean = true, onClick: () -> Unit) {
     val timeText = String.format("%02d:%02d", minutes / 60, minutes % 60)
     Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
         Text(text = label, style = MaterialTheme.typography.bodyMedium)
-        TextButton(onClick = onClick) { Text(text = timeText) }
+        TextButton(onClick = onClick, enabled = enabled) { Text(text = timeText) }
     }
 }
 

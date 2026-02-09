@@ -1,5 +1,14 @@
 [
   {
+    "id": "onboarding_done",
+    "title": "Kararını verdin",
+    "category": "Sigarasızlık",
+    "targetValue": 1,
+    "metricType": "APP_EVENT",
+    "iconName": "achievement_decision",
+    "isPremium": false
+  },
+  {
     "id": "smoke_20",
     "title": "20 sigara içmedin",
     "category": "Sigarasızlık",
@@ -186,15 +195,6 @@
     "targetValue": 365,
     "metricType": "LIFE_GAINED_DAYS",
     "iconName": "badge_life_365",
-    "isPremium": false
-  },
-  {
-    "id": "onboarding_done",
-    "title": "Kararını verdin",
-    "category": "Uygulama",
-    "targetValue": 1,
-    "metricType": "APP_EVENT",
-    "iconName": "achievement_decision",
     "isPremium": false
   }
 ]

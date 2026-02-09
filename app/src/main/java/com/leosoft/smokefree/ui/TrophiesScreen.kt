@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,17 +28,26 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.ui.viewmodel.BadgesViewModel
 import com.leosoft.smokefree.ui.viewmodel.BadgeItemState
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.R
 import com.leosoft.smokefree.ui.SmokeFreeTheme
 
 @Composable
 fun TrophiesScreen() {
     val viewModel: BadgesViewModel = viewModel()
+    val progressViewModel: ProgressViewModel = viewModel()
     val state by viewModel.uiState.collectAsState()
+    val progressState by progressViewModel.uiState.collectAsState()
     var selected by mutableStateOf<BadgeItemState?>(null)
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_badges)) }
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_badges),
+                onSettingsClick = { showSettingsDialog = true }
+            )
+        }
     ) { padding ->
         TrophiesContent(
             badges = state.badges,
@@ -65,6 +75,19 @@ fun TrophiesScreen() {
             }
         )
     }
+
+    SettingsDialog(
+        show = showSettingsDialog,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog = false
+        }
+    )
 }
 
 @Composable

@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -29,15 +31,24 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.ui.viewmodel.HealthViewModel
 import com.leosoft.smokefree.ui.viewmodel.HealthMilestoneState
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import com.leosoft.smokefree.R
 
 @Composable
 fun HealthScreen() {
     val viewModel: HealthViewModel = viewModel()
+    val progressViewModel: ProgressViewModel = viewModel()
     val state by viewModel.uiState.collectAsState()
+    val progressState by progressViewModel.uiState.collectAsState()
+    val showSettingsDialog = remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_health)) }
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_health),
+                onSettingsClick = { showSettingsDialog.value = true }
+            )
+        }
     ) { padding ->
         HealthContent(
             milestones = state.milestones,
@@ -46,6 +57,19 @@ fun HealthScreen() {
                 .padding(AppSpacing.m)
         )
     }
+
+    SettingsDialog(
+        show = showSettingsDialog.value,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog.value = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog.value = false
+        }
+    )
 }
 
 @Composable

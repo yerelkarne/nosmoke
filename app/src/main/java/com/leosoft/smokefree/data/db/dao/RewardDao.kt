@@ -14,4 +14,7 @@ interface RewardDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertReward(item: RewardItem)
+
+    @Query("DELETE FROM reward_items WHERE id = :id")
+    suspend fun deleteRewardById(id: String)
 }

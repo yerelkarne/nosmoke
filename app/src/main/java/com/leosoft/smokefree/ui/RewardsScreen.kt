@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.leosoft.smokefree.data.db.entities.RewardItem
 import com.leosoft.smokefree.ui.viewmodel.RewardsViewModel
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import kotlinx.coroutines.launch
 import com.leosoft.smokefree.R
 import com.leosoft.smokefree.ui.viewmodel.RewardItemState
@@ -47,18 +49,37 @@ import com.leosoft.smokefree.ui.viewmodel.RewardItemState
 @Composable
 fun RewardsScreen() {
     val viewModel: RewardsViewModel = viewModel()
+    val progressViewModel: ProgressViewModel = viewModel()
     val state by viewModel.uiState.collectAsState()
+    val progressState by progressViewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
     var showDialog by remember { mutableStateOf(false) }
     var title by remember { mutableStateOf("") }
     var priceText by remember { mutableStateOf("") }
+    var editingId by remember { mutableStateOf<String?>(null) }
+    var editingCreatedAt by remember { mutableStateOf<Long?>(null) }
+    var editingIconName by remember { mutableStateOf("reward_gift") }
+    var showSettingsDialog by remember { mutableStateOf(false) }
+    var showDeleteConfirm by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { AppTopBar(title = stringResource(R.string.title_rewards)) },
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.title_rewards),
+                onSettingsClick = { showSettingsDialog = true }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { showDialog = true },
+                onClick = {
+                    editingId = null
+                    editingCreatedAt = null
+                    editingIconName = "reward_gift"
+                    title = ""
+                    priceText = ""
+                    showDialog = true
+                },
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp)
             ) {
@@ -72,13 +93,20 @@ fun RewardsScreen() {
             modifier = Modifier
                 .padding(padding)
                 .padding(AppSpacing.m)
-        )
+        ) { item ->
+            editingId = item.id
+            editingCreatedAt = item.createdAt
+            editingIconName = item.iconName
+            title = item.title
+            priceText = item.price.toString()
+            showDialog = true
+        }
     }
 
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("Yeni Hedef") },
+            title = { Text(if (editingId == null) "Yeni Hedef" else "Hedefi Düzenle") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     TextField(value = title, onValueChange = { title = it }, label = { Text("Başlık") })
@@ -87,34 +115,94 @@ fun RewardsScreen() {
             },
             confirmButton = {
                 TextButton(onClick = {
+                    val trimmedTitle = title.trim()
                     val price = priceText.toDoubleOrNull() ?: 0.0
-                    if (title.isNotBlank() && price > 0) {
+                    if (trimmedTitle.isNotBlank() && price > 0) {
                         coroutineScope.launch {
                             viewModel.addReward(
                                 RewardItem(
-                                    id = "reward_${System.currentTimeMillis()}",
-                                    title = title,
+                                    id = editingId ?: "reward_${System.currentTimeMillis()}",
+                                    title = trimmedTitle,
                                     price = price,
-                                    iconName = "reward_gift",
-                                    createdAt = System.currentTimeMillis()
+                                    iconName = editingIconName,
+                                    createdAt = editingCreatedAt ?: System.currentTimeMillis()
                                 )
                             )
                         }
                     }
                     title = ""
                     priceText = ""
+                    editingId = null
+                    editingCreatedAt = null
+                    editingIconName = "reward_gift"
                     showDialog = false
                 }) { Text("Kaydet") }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) { Text("İptal") }
+                Row(horizontalArrangement = Arrangement.spacedBy(AppSpacing.s)) {
+                    if (editingId != null) {
+                        TextButton(onClick = { showDeleteConfirm = true }) { Text("Sil") }
+                    }
+                    TextButton(onClick = {
+                        showDialog = false
+                        editingId = null
+                        editingCreatedAt = null
+                        editingIconName = "reward_gift"
+                    }) { Text("İptal") }
+                }
             }
         )
     }
+
+    if (showDeleteConfirm) {
+        AlertDialog(
+            onDismissRequest = { showDeleteConfirm = false },
+            title = { Text("Emin misiniz?") },
+            text = { Text("Bu hedef silinecek.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    val id = editingId
+                    if (id != null) {
+                        coroutineScope.launch {
+                            viewModel.deleteReward(id)
+                        }
+                    }
+                    showDeleteConfirm = false
+                    showDialog = false
+                    editingId = null
+                    editingCreatedAt = null
+                    editingIconName = "reward_gift"
+                    title = ""
+                    priceText = ""
+                }) { Text("Sil") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteConfirm = false }) { Text("Vazgeç") }
+            }
+        )
+    }
+
+    SettingsDialog(
+        show = showSettingsDialog,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog = false
+        }
+    )
 }
 
 @Composable
-private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, modifier: Modifier = Modifier) {
+private fun RewardsContent(
+    savedMoney: Double,
+    items: List<RewardItemState>,
+    modifier: Modifier = Modifier,
+    onItemClick: (RewardItemState) -> Unit
+) {
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
@@ -139,7 +227,9 @@ private fun RewardsContent(savedMoney: Double, items: List<RewardItemState>, mod
                 progress = item.progress,
                 progressText = "Hedefe %${(item.progress * 100).toInt()} yaklaştın",
                 icon = iconByRewardName(item.iconName),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onItemClick(item) }
             )
         }
     }
@@ -152,10 +242,11 @@ private fun RewardsPreview() {
         RewardsContent(
             savedMoney = 420.0,
             items = listOf(
-                RewardItemState("1", "Kulaklık", 1500.0, "reward_phone", 0.28f),
-                RewardItemState("2", "Bilet", 400.0, "reward_ticket", 0.9f)
+                RewardItemState("1", "Kulaklık", 1500.0, "reward_phone", 0.28f, System.currentTimeMillis()),
+                RewardItemState("2", "Bilet", 400.0, "reward_ticket", 0.9f, System.currentTimeMillis())
             ),
-            modifier = Modifier.padding(AppSpacing.m)
+            modifier = Modifier.padding(AppSpacing.m),
+            onItemClick = {}
         )
     }
 }

@@ -10,4 +10,8 @@ class RewardRepository(private val dao: RewardDao) {
     suspend fun addReward(item: RewardItem) {
         dao.insertReward(item)
     }
+
+    suspend fun deleteReward(id: String) {
+        dao.deleteRewardById(id)
+    }
 }

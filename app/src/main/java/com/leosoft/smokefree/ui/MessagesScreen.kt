@@ -18,9 +18,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,12 +34,17 @@ import androidx.compose.ui.unit.dp
 import com.leosoft.smokefree.R
 import com.leosoft.smokefree.data.Message
 import com.leosoft.smokefree.data.MessageRepository
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MessagesScreen(onBack: () -> Unit, onMessageClick: (Int) -> Unit) {
     val context = LocalContext.current
     val messagesState = remember { mutableStateOf<List<Message>>(emptyList()) }
+    val progressViewModel: ProgressViewModel = viewModel()
+    val progressState by progressViewModel.uiState.collectAsState()
+    val showSettingsDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         messagesState.value = MessageRepository.loadMessages(context)
@@ -65,6 +74,14 @@ fun MessagesScreen(onBack: () -> Unit, onMessageClick: (Int) -> Unit) {
                             contentDescription = "Geri"
                         )
                     }
+                },
+                actions = {
+                    IconButton(onClick = { showSettingsDialog.value = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Ayarlar"
+                        )
+                    }
                 }
             )
         }
@@ -85,4 +102,17 @@ fun MessagesScreen(onBack: () -> Unit, onMessageClick: (Int) -> Unit) {
             }
         }
     }
+
+    SettingsDialog(
+        show = showSettingsDialog.value,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog.value = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog.value = false
+        }
+    )
 }
