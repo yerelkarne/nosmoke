@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -19,6 +20,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import androidx.navigation.compose.NavHost
@@ -102,7 +104,7 @@ class MainActivity : ComponentActivity() {
 
                         Scaffold(
                             bottomBar = {
-                                Column {
+                                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
                                     BannerAd(modifier = Modifier.fillMaxWidth())
                                     BottomNavBar(navController)
                                 }
