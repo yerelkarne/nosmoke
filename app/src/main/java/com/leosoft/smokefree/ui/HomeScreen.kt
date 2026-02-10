@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -215,8 +214,6 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
             ) {
                 Text("Kaydet")
             }
-
-            Spacer(modifier = Modifier.weight(1f))
 
         }
     }
