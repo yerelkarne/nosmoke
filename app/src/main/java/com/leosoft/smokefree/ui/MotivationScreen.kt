@@ -103,7 +103,7 @@ fun MotivationScreen(onMessagesClick: () -> Unit) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(AppSpacing.m)
+                .padding(horizontal = AppSpacing.m, top = AppSpacing.m)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(AppSpacing.m)
         ) {

@@ -94,7 +94,7 @@ fun RewardsScreen() {
             items = state.items,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m)
+                .padding(horizontal = AppSpacing.m, top = AppSpacing.m)
         ) { item ->
             editingId = item.id
             editingCreatedAt = item.createdAt
@@ -247,7 +247,7 @@ private fun RewardsPreview() {
                 RewardItemState("1", "Kulaklık", 1500.0, "reward_phone", 0.28f, System.currentTimeMillis()),
                 RewardItemState("2", "Bilet", 400.0, "reward_ticket", 0.9f, System.currentTimeMillis())
             ),
-            modifier = Modifier.padding(AppSpacing.m),
+            modifier = Modifier.padding(horizontal = AppSpacing.m, top = AppSpacing.m),
             onItemClick = {}
         )
     }

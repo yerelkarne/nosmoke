@@ -55,7 +55,7 @@ fun TrophiesScreen() {
             badges = state.badges,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m),
+                .padding(horizontal = AppSpacing.m, top = AppSpacing.m),
             onSelected = { selected = it }
         )
     }
@@ -145,7 +145,7 @@ private fun TrophiesPreview() {
                 BadgeItemState("1", "20 sigara içmedin", "Sigarasızlık", "badge_smoke_20", 20, 10, false),
                 BadgeItemState("2", "7 gün sigarasız", "Gün Sayısı", "badge_days_7", 7, 7, true)
             ),
-            modifier = Modifier.padding(AppSpacing.m),
+            modifier = Modifier.padding(horizontal = AppSpacing.m, top = AppSpacing.m),
             onSelected = {}
         )
     }
