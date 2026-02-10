@@ -50,7 +50,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.leosoft.smokefree.R
-import com.leosoft.smokefree.ads.BannerAd
 import com.leosoft.smokefree.AppContainer
 import com.leosoft.smokefree.data.SettingsDataStore
 import com.leosoft.smokefree.notifications.AlarmScheduler
@@ -219,7 +218,6 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
 
             Spacer(modifier = Modifier.weight(1f))
 
-            BannerAd(modifier = Modifier.fillMaxWidth())
         }
     }
 }
