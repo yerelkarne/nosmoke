@@ -1,5 +1,6 @@
 package com.leosoft.smokefree.ui
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CardGiftcard
 import androidx.compose.material.icons.filled.EmojiEvents
@@ -23,7 +24,7 @@ fun BottomNavBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    NavigationBar {
+    NavigationBar(windowInsets = WindowInsets(0, 0, 0, 0)) {
         NavigationRoutes.items.forEach { item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
