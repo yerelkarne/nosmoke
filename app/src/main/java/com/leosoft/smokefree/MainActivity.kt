@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                             NavHost(
                                 navController = navController,
                                 startDestination = NavigationRoutes.Progress.route,
-                                modifier = Modifier.padding(top = padding.calculateTopPadding())
+                                modifier = Modifier.padding(padding)
                             ) {
                                 composable(NavigationRoutes.Trophies.route) { TrophiesScreen() }
                                 composable(NavigationRoutes.Rewards.route) { RewardsScreen() }
