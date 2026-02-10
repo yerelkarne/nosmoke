@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -19,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLayoutDirection
 import kotlinx.coroutines.launch
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -104,16 +102,10 @@ class MainActivity : ComponentActivity() {
                                 BottomNavBar(navController)
                             }
                         ) { padding ->
-                            val layoutDirection = LocalLayoutDirection.current
                             NavHost(
                                 navController = navController,
                                 startDestination = NavigationRoutes.Progress.route,
-                                modifier = Modifier.padding(
-                                    start = padding.calculateStartPadding(layoutDirection),
-                                    top = padding.calculateTopPadding(),
-                                    end = padding.calculateEndPadding(layoutDirection),
-                                    bottom = 0.dp
-                                )
+                                modifier = Modifier.padding(top = padding.calculateTopPadding())
                             ) {
                                 composable(NavigationRoutes.Trophies.route) { TrophiesScreen() }
                                 composable(NavigationRoutes.Rewards.route) { RewardsScreen() }
