@@ -73,7 +73,7 @@ fun ProgressScreen() {
             dailyQuote = motivationState.quote,
             modifier = Modifier
                 .padding(padding)
-                .padding(horizontal = AppSpacing.m, top = AppSpacing.m)
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 
@@ -315,7 +315,7 @@ private fun ProgressScreenPreview() {
                 packSize = 20
             ),
             dailyQuote = "Bugün de sigarasız kalmayı seçtin.",
-            modifier = Modifier.padding(horizontal = AppSpacing.m, top = AppSpacing.m)
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 }

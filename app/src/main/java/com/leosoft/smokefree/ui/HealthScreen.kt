@@ -56,7 +56,7 @@ fun HealthScreen() {
             milestones = state.milestones,
             modifier = Modifier
                 .padding(padding)
-                .padding(horizontal = AppSpacing.m, top = AppSpacing.m)
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 
@@ -117,7 +117,7 @@ private fun HealthPreview() {
                 HealthMilestoneState("m1", "24 saat", "Kalp krizi riski azalır.", "health_heart", 1f, true),
                 HealthMilestoneState("m2", "48 saat", "Tat ve koku geri gelir.", "health_progress", 0.4f, false)
             ),
-            modifier = Modifier.padding(horizontal = AppSpacing.m, top = AppSpacing.m)
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 }
