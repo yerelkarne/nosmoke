@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -36,6 +39,7 @@ import com.leosoft.smokefree.ui.SmokeFreeTheme
 import com.leosoft.smokefree.ui.TrophiesScreen
 import com.leosoft.smokefree.ui.NavigationRoutes
 import com.leosoft.smokefree.ui.MotivationScreen
+import com.leosoft.smokefree.ads.BannerAd
 import com.leosoft.smokefree.ads.InterstitialAdManager
 
 class MainActivity : ComponentActivity() {
@@ -101,7 +105,10 @@ class MainActivity : ComponentActivity() {
                         Scaffold(
                             contentWindowInsets = WindowInsets(0),
                             bottomBar = {
-                                BottomNavBar(navController)
+                                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+                                    BannerAd()
+                                    BottomNavBar(navController)
+                                }
                             }
                         ) { padding ->
                             NavHost(
