@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.clickable
@@ -64,6 +65,7 @@ fun RewardsScreen() {
     var showDeleteConfirm by remember { mutableStateOf(false) }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             AppTopBar(
                 title = stringResource(R.string.title_rewards),
@@ -92,7 +94,7 @@ fun RewardsScreen() {
             items = state.items,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m)
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         ) { item ->
             editingId = item.id
             editingCreatedAt = item.createdAt
@@ -245,7 +247,7 @@ private fun RewardsPreview() {
                 RewardItemState("1", "Kulaklık", 1500.0, "reward_phone", 0.28f, System.currentTimeMillis()),
                 RewardItemState("2", "Bilet", 400.0, "reward_ticket", 0.9f, System.currentTimeMillis())
             ),
-            modifier = Modifier.padding(AppSpacing.m),
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m),
             onItemClick = {}
         )
     }

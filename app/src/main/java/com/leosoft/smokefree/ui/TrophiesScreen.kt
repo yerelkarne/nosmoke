@@ -3,6 +3,7 @@ package com.leosoft.smokefree.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -42,6 +43,7 @@ fun TrophiesScreen() {
     var showSettingsDialog by remember { mutableStateOf(false) }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             AppTopBar(
                 title = stringResource(R.string.title_badges),
@@ -53,7 +55,7 @@ fun TrophiesScreen() {
             badges = state.badges,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m),
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m),
             onSelected = { selected = it }
         )
     }
@@ -143,7 +145,7 @@ private fun TrophiesPreview() {
                 BadgeItemState("1", "20 sigara içmedin", "Sigarasızlık", "badge_smoke_20", 20, 10, false),
                 BadgeItemState("2", "7 gün sigarasız", "Gün Sayısı", "badge_days_7", 7, 7, true)
             ),
-            modifier = Modifier.padding(AppSpacing.m),
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m),
             onSelected = {}
         )
     }

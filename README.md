@@ -20,6 +20,15 @@ Tamamen çevrimdışı çalışan sigara bırakma telkin uygulaması. Bildirimle
 2. Gradle senkronizasyonunu tamamlayın.
 3. Bir cihaz/emülatör seçip çalıştırın.
 
+## Uygulama İkonunu Android Studio "New Image Asset" ile Değiştirme
+1. `app` modülünde `res` klasörüne sağ tıklayın.
+2. **New > Image Asset** seçin.
+3. Icon Type olarak **Launcher Icons (Adaptive and Legacy)** seçin.
+4. Kendi görselinizi seçip isimleri `ic_launcher` / `ic_launcher_round` bırakın.
+5. Finish dedikten sonra Android Studio mevcut launcher ikon dosyalarını günceller.
+
+Not: Manifest artık `@mipmap/ic_launcher` ve `@mipmap/ic_launcher_round` kullandığı için bu akışla doğrudan ikon değiştirebilirsiniz.
+
 ## Bildirim İzinleri
 - Android 13+ için POST_NOTIFICATIONS izni istenir.
 - Android 12+ için kesin alarm iznini uygulama içindeki butondan etkinleştirin.

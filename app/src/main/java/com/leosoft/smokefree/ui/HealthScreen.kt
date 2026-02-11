@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -43,6 +44,7 @@ fun HealthScreen() {
     val showSettingsDialog = remember { mutableStateOf(false) }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             AppTopBar(
                 title = stringResource(R.string.title_health),
@@ -54,7 +56,7 @@ fun HealthScreen() {
             milestones = state.milestones,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m)
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 
@@ -115,7 +117,7 @@ private fun HealthPreview() {
                 HealthMilestoneState("m1", "24 saat", "Kalp krizi riski azalır.", "health_heart", 1f, true),
                 HealthMilestoneState("m2", "48 saat", "Tat ve koku geri gelir.", "health_progress", 0.4f, false)
             ),
-            modifier = Modifier.padding(AppSpacing.m)
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 }

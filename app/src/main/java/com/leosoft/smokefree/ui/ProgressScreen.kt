@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -59,6 +60,7 @@ fun ProgressScreen() {
     }
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         topBar = {
             AppTopBar(
                 title = stringResource(R.string.title_progress),
@@ -71,7 +73,7 @@ fun ProgressScreen() {
             dailyQuote = motivationState.quote,
             modifier = Modifier
                 .padding(padding)
-                .padding(AppSpacing.m)
+                .padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 
@@ -140,7 +142,9 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
     val lifeGainedDuration = formatDuration(lifeGainedMillis)
 
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = AppSpacing.xl),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.l)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -313,7 +317,7 @@ private fun ProgressScreenPreview() {
                 packSize = 20
             ),
             dailyQuote = "Bugün de sigarasız kalmayı seçtin.",
-            modifier = Modifier.padding(AppSpacing.m)
+            modifier = Modifier.padding(start = AppSpacing.m, top = AppSpacing.m, end = AppSpacing.m)
         )
     }
 }
