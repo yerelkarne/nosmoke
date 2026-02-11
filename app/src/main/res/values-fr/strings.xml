@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Trophées</string>
+    <string name="tab_rewards">Récompenses</string>
+    <string name="tab_progress">Progression</string>
+    <string name="tab_health">Santé</string>
+    <string name="tab_motivation">Motivation</string>
+    <string name="title_onboarding">Questions de départ</string>
+    <string name="title_progress">Progression</string>
+    <string name="title_rewards">Récompenses</string>
+    <string name="title_health">Santé</string>
+    <string name="title_motivation">Motivation</string>
+    <string name="title_badges">Trophées</string>
+    <string name="label_daily_quote">Citation du jour</string>
+    <string name="label_notifications">Paramètres de notification</string>
+    <string name="label_save">Enregistrer</string>
+    <string name="label_continue">Continuer</string>
+    <string name="label_start">Démarrer</string>
+</resources>

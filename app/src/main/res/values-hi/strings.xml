@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">उपलब्धियां</string>
+    <string name="tab_rewards">इनाम</string>
+    <string name="tab_progress">प्रगति</string>
+    <string name="tab_health">स्वास्थ्य</string>
+    <string name="tab_motivation">प्रेरणा</string>
+    <string name="title_onboarding">शुरुआती प्रश्न</string>
+    <string name="title_progress">प्रगति</string>
+    <string name="title_rewards">इनाम</string>
+    <string name="title_health">स्वास्थ्य</string>
+    <string name="title_motivation">प्रेरणा</string>
+    <string name="title_badges">उपलब्धियां</string>
+    <string name="label_daily_quote">आज का विचार</string>
+    <string name="label_notifications">सूचना सेटिंग्स</string>
+    <string name="label_save">सहेजें</string>
+    <string name="label_continue">जारी रखें</string>
+    <string name="label_start">शुरू करें</string>
+</resources>
