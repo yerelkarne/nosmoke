@@ -142,7 +142,9 @@ fun ProgressContent(state: ProgressUiState, dailyQuote: String, modifier: Modifi
     val lifeGainedDuration = formatDuration(lifeGainedMillis)
 
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = AppSpacing.xl),
         verticalArrangement = Arrangement.spacedBy(AppSpacing.l)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
