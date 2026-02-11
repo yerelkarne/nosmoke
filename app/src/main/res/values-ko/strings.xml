@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">업적</string>
+    <string name="tab_rewards">보상</string>
+    <string name="tab_progress">진행 상황</string>
+    <string name="tab_health">건강</string>
+    <string name="tab_motivation">동기부여</string>
+    <string name="title_onboarding">시작 질문</string>
+    <string name="title_progress">진행 상황</string>
+    <string name="title_rewards">보상</string>
+    <string name="title_health">건강</string>
+    <string name="title_motivation">동기부여</string>
+    <string name="title_badges">업적</string>
+    <string name="label_daily_quote">오늘의 문구</string>
+    <string name="label_notifications">알림 설정</string>
+    <string name="label_save">저장</string>
+    <string name="label_continue">계속</string>
+    <string name="label_start">시작</string>
+</resources>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">実績</string>
+    <string name="tab_rewards">報酬</string>
+    <string name="tab_progress">進捗</string>
+    <string name="tab_health">健康</string>
+    <string name="tab_motivation">モチベーション</string>
+    <string name="title_onboarding">開始時の質問</string>
+    <string name="title_progress">進捗</string>
+    <string name="title_rewards">報酬</string>
+    <string name="title_health">健康</string>
+    <string name="title_motivation">モチベーション</string>
+    <string name="title_badges">実績</string>
+    <string name="label_daily_quote">今日の一言</string>
+    <string name="label_notifications">通知設定</string>
+    <string name="label_save">保存</string>
+    <string name="label_continue">続ける</string>
+    <string name="label_start">開始</string>
+</resources>
