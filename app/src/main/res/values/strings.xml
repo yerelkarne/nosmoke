@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Kupalar</string>
+    <string name="tab_rewards">Ödüller</string>
+    <string name="tab_progress">İlerleme</string>
+    <string name="tab_health">Sağlık</string>
+    <string name="tab_motivation">Motivasyon</string>
+    <string name="title_onboarding">Başlangıç Soruları</string>
+    <string name="title_progress">İlerleme</string>
+    <string name="title_rewards">Ödüller</string>
+    <string name="title_health">Sağlık</string>
+    <string name="title_motivation">Motivasyon</string>
+    <string name="title_badges">Kupalar</string>
+    <string name="label_daily_quote">Günün sözü</string>
+    <string name="label_notifications">Bildirim ayarları</string>
+    <string name="label_save">Kaydet</string>
+    <string name="label_continue">Devam</string>
+    <string name="label_start">Başla</string>
+</resources>
