@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Märken</string>
+    <string name="tab_rewards">Belöningar</string>
+    <string name="tab_progress">Framsteg</string>
+    <string name="tab_health">Hälsa</string>
+    <string name="tab_motivation">Motivation</string>
+    <string name="title_onboarding">Kom igång</string>
+    <string name="title_progress">Framsteg</string>
+    <string name="title_rewards">Belöningar</string>
+    <string name="title_health">Hälsa</string>
+    <string name="title_motivation">Motivation</string>
+    <string name="title_badges">Märken</string>
+    <string name="label_daily_quote">Dagens citat</string>
+    <string name="label_notifications">Notisinställningar</string>
+    <string name="label_save">Spara</string>
+    <string name="label_continue">Fortsätt</string>
+    <string name="label_start">Starta</string>
+</resources>
