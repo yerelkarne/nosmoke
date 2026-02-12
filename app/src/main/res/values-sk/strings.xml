@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Odznaky</string>
+    <string name="tab_rewards">Odmeny</string>
+    <string name="tab_progress">Pokrok</string>
+    <string name="tab_health">Zdravie</string>
+    <string name="tab_motivation">Motivácia</string>
+    <string name="title_onboarding">Začíname</string>
+    <string name="title_progress">Pokrok</string>
+    <string name="title_rewards">Odmeny</string>
+    <string name="title_health">Zdravie</string>
+    <string name="title_motivation">Motivácia</string>
+    <string name="title_badges">Odznaky</string>
+    <string name="label_daily_quote">Citát dňa</string>
+    <string name="label_notifications">Nastavenia upozornení</string>
+    <string name="label_save">Uložiť</string>
+    <string name="label_continue">Pokračovať</string>
+    <string name="label_start">Začať</string>
+</resources>

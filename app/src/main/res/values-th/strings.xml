@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">ถ้วยรางวัล</string>
+    <string name="tab_rewards">รางวัล</string>
+    <string name="tab_progress">ความคืบหน้า</string>
+    <string name="tab_health">สุขภาพ</string>
+    <string name="tab_motivation">แรงจูงใจ</string>
+    <string name="title_onboarding">เริ่มต้นใช้งาน</string>
+    <string name="title_progress">ความคืบหน้า</string>
+    <string name="title_rewards">รางวัล</string>
+    <string name="title_health">สุขภาพ</string>
+    <string name="title_motivation">แรงจูงใจ</string>
+    <string name="title_badges">ถ้วยรางวัล</string>
+    <string name="label_daily_quote">คำคมประจำวัน</string>
+    <string name="label_notifications">การตั้งค่าการแจ้งเตือน</string>
+    <string name="label_save">บันทึก</string>
+    <string name="label_continue">ดำเนินการต่อ</string>
+    <string name="label_start">เริ่ม</string>
+</resources>

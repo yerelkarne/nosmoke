@@ -12,7 +12,8 @@ class NotificationReceiver : BroadcastReceiver() {
         // Alarm tetiklendiğinde mesajı bulup bildirimi göster.
         val messageId = intent.getIntExtra(NotificationHelper.EXTRA_MESSAGE_ID, -1)
         val message = MessageRepository.findMessage(context, messageId)
-        val fullText = message?.text ?: "Bugün de sağlığın için harika bir adım atıyorsun."
+        val fallbackMessage = MessageRepository.loadMessages(context).firstOrNull()?.text ?: "Stay smoke-free today."
+        val fullText = message?.text ?: fallbackMessage
         val preview = if (fullText.length > 60) {
             fullText.take(60) + "…"
         } else {

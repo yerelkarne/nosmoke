@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Huy hiệu</string>
+    <string name="tab_rewards">Phần thưởng</string>
+    <string name="tab_progress">Tiến trình</string>
+    <string name="tab_health">Sức khỏe</string>
+    <string name="tab_motivation">Động lực</string>
+    <string name="title_onboarding">Bắt đầu</string>
+    <string name="title_progress">Tiến trình</string>
+    <string name="title_rewards">Phần thưởng</string>
+    <string name="title_health">Sức khỏe</string>
+    <string name="title_motivation">Động lực</string>
+    <string name="title_badges">Huy hiệu</string>
+    <string name="label_daily_quote">Câu nói trong ngày</string>
+    <string name="label_notifications">Cài đặt thông báo</string>
+    <string name="label_save">Lưu</string>
+    <string name="label_continue">Tiếp tục</string>
+    <string name="label_start">Bắt đầu</string>
+</resources>

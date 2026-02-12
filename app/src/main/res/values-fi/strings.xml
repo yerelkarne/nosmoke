@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Saavutukset</string>
+    <string name="tab_rewards">Palkinnot</string>
+    <string name="tab_progress">Edistyminen</string>
+    <string name="tab_health">Terveys</string>
+    <string name="tab_motivation">Motivaatio</string>
+    <string name="title_onboarding">Aloituskysymykset</string>
+    <string name="title_progress">Edistyminen</string>
+    <string name="title_rewards">Palkinnot</string>
+    <string name="title_health">Terveys</string>
+    <string name="title_motivation">Motivaatio</string>
+    <string name="title_badges">Saavutukset</string>
+    <string name="label_daily_quote">Päivän lainaus</string>
+    <string name="label_notifications">Ilmoitusasetukset</string>
+    <string name="label_save">Tallenna</string>
+    <string name="label_continue">Jatka</string>
+    <string name="label_start">Aloita</string>
+</resources>

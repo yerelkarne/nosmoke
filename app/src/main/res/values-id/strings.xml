@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Pencapaian</string>
+    <string name="tab_rewards">Hadiah</string>
+    <string name="tab_progress">Kemajuan</string>
+    <string name="tab_health">Kesehatan</string>
+    <string name="tab_motivation">Motivasi</string>
+    <string name="title_onboarding">Pertanyaan Awal</string>
+    <string name="title_progress">Kemajuan</string>
+    <string name="title_rewards">Hadiah</string>
+    <string name="title_health">Kesehatan</string>
+    <string name="title_motivation">Motivasi</string>
+    <string name="title_badges">Pencapaian</string>
+    <string name="label_daily_quote">Kutipan hari ini</string>
+    <string name="label_notifications">Pengaturan notifikasi</string>
+    <string name="label_save">Simpan</string>
+    <string name="label_continue">Lanjutkan</string>
+    <string name="label_start">Mulai</string>
+</resources>

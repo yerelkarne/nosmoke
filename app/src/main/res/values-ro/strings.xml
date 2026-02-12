@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Insigne</string>
+    <string name="tab_rewards">Recompense</string>
+    <string name="tab_progress">Progres</string>
+    <string name="tab_health">Sănătate</string>
+    <string name="tab_motivation">Motivație</string>
+    <string name="title_onboarding">Pași de început</string>
+    <string name="title_progress">Progres</string>
+    <string name="title_rewards">Recompense</string>
+    <string name="title_health">Sănătate</string>
+    <string name="title_motivation">Motivație</string>
+    <string name="title_badges">Insigne</string>
+    <string name="label_daily_quote">Citatul zilei</string>
+    <string name="label_notifications">Setări notificări</string>
+    <string name="label_save">Salvează</string>
+    <string name="label_continue">Continuă</string>
+    <string name="label_start">Începe</string>
+</resources>

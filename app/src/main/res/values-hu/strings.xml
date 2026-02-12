@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">SmokeFree Coach</string>
+    <string name="tab_trophies">Eredmények</string>
+    <string name="tab_rewards">Jutalmak</string>
+    <string name="tab_progress">Haladás</string>
+    <string name="tab_health">Egészség</string>
+    <string name="tab_motivation">Motiváció</string>
+    <string name="title_onboarding">Kezdő kérdések</string>
+    <string name="title_progress">Haladás</string>
+    <string name="title_rewards">Jutalmak</string>
+    <string name="title_health">Egészség</string>
+    <string name="title_motivation">Motiváció</string>
+    <string name="title_badges">Eredmények</string>
+    <string name="label_daily_quote">Napi idézet</string>
+    <string name="label_notifications">Értesítési beállítások</string>
+    <string name="label_save">Mentés</string>
+    <string name="label_continue">Folytatás</string>
+    <string name="label_start">Kezdés</string>
+</resources>
