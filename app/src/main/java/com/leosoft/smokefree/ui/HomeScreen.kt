@@ -27,12 +27,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -52,6 +55,7 @@ import com.leosoft.smokefree.R
 import com.leosoft.smokefree.AppContainer
 import com.leosoft.smokefree.data.SettingsDataStore
 import com.leosoft.smokefree.notifications.AlarmScheduler
+import com.leosoft.smokefree.ui.viewmodel.ProgressViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,6 +64,8 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
     val context = LocalContext.current
     val settingsStore = remember { SettingsDataStore(context) }
     val achievementEngine = remember { AppContainer.achievementEngine(context) }
+    val progressViewModel: ProgressViewModel = viewModel()
+    val progressState by progressViewModel.uiState.collectAsState()
     val settings by settingsStore.settingsFlow.collectAsState(initial = null)
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -69,6 +75,7 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
     var endMinutes by remember { mutableStateOf(20 * 60) }
     var dropdownExpanded by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var showSettingsDialog by remember { mutableStateOf(false) }
 
     LaunchedEffect(settings) {
         settings?.let {
@@ -102,6 +109,12 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
                 windowInsets = WindowInsets(0),
                 modifier = Modifier.height(50.dp),
                 actions = {
+                    IconButton(onClick = { showSettingsDialog = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.Settings,
+                            contentDescription = "Ayarlar"
+                        )
+                    }
                     IconButton(onClick = onMessagesClick) {
                         Icon(painterResource(id = R.drawable.ic_message), contentDescription = "Sözler")
                     }
@@ -217,6 +230,19 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
 
         }
     }
+
+    SettingsDialog(
+        show = showSettingsDialog,
+        cigarettesPerDay = progressState.cigarettesPerDay,
+        packPrice = progressState.packPrice,
+        packSize = progressState.packSize,
+        smokeFreeDays = progressState.smokeFreeDays,
+        onDismiss = { showSettingsDialog = false },
+        onSave = { startTimestamp, cigarettes, price, size ->
+            progressViewModel.updateUserStats(startTimestamp, cigarettes, price, size)
+            showSettingsDialog = false
+        }
+    )
 }
 
 @Composable
