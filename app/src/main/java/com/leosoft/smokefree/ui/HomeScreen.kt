@@ -13,10 +13,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -101,13 +99,10 @@ fun HomeScreen(onMessagesClick: () -> Unit) {
                             textAlign = TextAlign.Center,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.TopCenter)
-                                .padding(top = 15.dp)
+                                .align(Alignment.Center)
                         )
                     }
                 },
-                windowInsets = WindowInsets(0),
-                modifier = Modifier.height(50.dp),
                 actions = {
                     IconButton(onClick = { showSettingsDialog = true }) {
                         Icon(
