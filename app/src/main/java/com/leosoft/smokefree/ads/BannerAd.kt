@@ -19,6 +19,7 @@ import com.google.android.gms.ads.AdView
 fun BannerAd(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val adView = remember {
+        AdsInitializer.initialize(context)
         AdView(context).apply {
             adUnitId = "ca-app-pub-3940256099942544/6300978111"
             setAdSize(AdSize.LARGE_BANNER)
