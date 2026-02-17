@@ -2,15 +2,11 @@ package com.leosoft.smokefree
 
 import android.content.Intent
 import android.os.Bundle
-import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.unit.dp
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -26,7 +22,6 @@ import kotlinx.coroutines.launch
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.leosoft.smokefree.notifications.NotificationHelper
 import com.leosoft.smokefree.ui.BottomNavBar
 import com.leosoft.smokefree.ui.HealthScreen
@@ -39,8 +34,6 @@ import com.leosoft.smokefree.ui.SmokeFreeTheme
 import com.leosoft.smokefree.ui.TrophiesScreen
 import com.leosoft.smokefree.ui.NavigationRoutes
 import com.leosoft.smokefree.ui.MotivationScreen
-import com.leosoft.smokefree.ads.BannerAd
-import com.leosoft.smokefree.ads.InterstitialAdManager
 
 class MainActivity : ComponentActivity() {
     private val pendingMessageIdState = mutableStateOf(-1)
@@ -55,16 +48,10 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
                     val context = LocalContext.current
-                    val activity = context as? Activity
-                    val interstitialAdManager = remember { InterstitialAdManager(context) }
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentRoute = navBackStackEntry?.destination?.route
                     val statsRepository = remember { AppContainer.statsRepository(context) }
                     val stats by statsRepository.statsFlow.collectAsState(initial = null)
                     val onboardingCompleted = stats?.stats?.onboardingCompleted == true
                     val coroutineScope = rememberCoroutineScope()
-                    val navigationCount = remember { mutableStateOf(0) }
-                    val lastRoute = remember { mutableStateOf<String?>(null) }
 
                     if (!onboardingCompleted) {
                         OnboardingScreen(onComplete = {
@@ -87,28 +74,10 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        LaunchedEffect(Unit) {
-                            interstitialAdManager.load()
-                        }
-                        LaunchedEffect(currentRoute) {
-                            if (currentRoute != null && currentRoute != lastRoute.value) {
-                                if (lastRoute.value != null) {
-                                    navigationCount.value += 1
-                                    if (navigationCount.value % 5 == 0) {
-                                        activity?.let { interstitialAdManager.show(it) }
-                                    }
-                                }
-                                lastRoute.value = currentRoute
-                            }
-                        }
-
                         Scaffold(
                             contentWindowInsets = WindowInsets(0),
                             bottomBar = {
-                                Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
-                                    BannerAd()
-                                    BottomNavBar(navController)
-                                }
+                                BottomNavBar(navController)
                             }
                         ) { padding ->
                             NavHost(
