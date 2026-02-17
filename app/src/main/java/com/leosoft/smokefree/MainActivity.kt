@@ -94,9 +94,11 @@ class MainActivity : ComponentActivity() {
                             if (currentRoute != null && currentRoute != lastRoute.value) {
                                 if (lastRoute.value != null) {
                                     navigationCount.value += 1
-                                    if (navigationCount.value % 5 == 0) {
+                                    val shouldShowInterstitial = navigationCount.value % 6 == 0
+                                    if (shouldShowInterstitial) {
                                         activity?.let { interstitialAdManager.show(it) }
                                     }
+                                    interstitialAdManager.load()
                                 }
                                 lastRoute.value = currentRoute
                             }

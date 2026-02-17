@@ -14,6 +14,7 @@ class InterstitialAdManager(private val context: Context) {
     private val adUnitId = "ca-app-pub-3940256099942544/1033173712"
 
     fun load() {
+        AdsInitializer.initialize(context)
         if (isLoading || interstitialAd != null) return
         isLoading = true
         InterstitialAd.load(

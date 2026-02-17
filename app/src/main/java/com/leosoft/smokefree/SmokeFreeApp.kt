@@ -1,27 +1,22 @@
 package com.leosoft.smokefree
 
 import android.app.Application
-import com.google.android.gms.ads.MobileAds
-import com.leosoft.smokefree.ads.AppOpenAdManager
 import com.leosoft.smokefree.data.seed.SeedDataLoader
-import com.leosoft.smokefree.work.WorkScheduler
 import com.leosoft.smokefree.notifications.NotificationHelper
+import com.leosoft.smokefree.work.WorkScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SmokeFreeApp : Application() {
-    private lateinit var appOpenAdManager: AppOpenAdManager
     private val applicationScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate() {
         super.onCreate()
-        NotificationHelper.createChannel(this)
-        MobileAds.initialize(this)
-        appOpenAdManager = AppOpenAdManager(this)
-        appOpenAdManager.registerLifecycle()
 
         applicationScope.launch {
+            NotificationHelper.createChannel(this@SmokeFreeApp)
+
             val database = AppContainer.provideDatabase(this@SmokeFreeApp)
             val seedLoader = SeedDataLoader(this@SmokeFreeApp)
             val achievementRepo = AppContainer.achievementRepository(this@SmokeFreeApp)
@@ -34,8 +29,8 @@ class SmokeFreeApp : Application() {
                 healthRepo.insertMilestones(seedLoader.loadHealthMilestones())
             }
             AppContainer.achievementEngine(this@SmokeFreeApp).evaluate()
-        }
 
-        WorkScheduler.scheduleNotifications(this)
+            WorkScheduler.scheduleNotifications(this@SmokeFreeApp)
+        }
     }
 }
