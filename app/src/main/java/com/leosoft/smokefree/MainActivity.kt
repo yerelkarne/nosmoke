@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
                                 if (lastRoute.value != null) {
                                     navigationCount.value += 1
                                     val now = System.currentTimeMillis()
-                                    val enoughNavTransitions = navigationCount.value % 12 == 0
+                                    val enoughNavTransitions = navigationCount.value % 8 == 0
                                     val appWarmedUp = (now - launchTimestamp) >= 45_000L
                                     val interstitialCooldownPassed = (now - lastInterstitialTimestamp.longValue) >= 90_000L
                                     if (enoughNavTransitions && appWarmedUp && interstitialCooldownPassed) {
