@@ -3,7 +3,6 @@ package com.leosoft.smokefree.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.leosoft.smokefree.AppContainer
 import com.leosoft.smokefree.data.MessageRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
