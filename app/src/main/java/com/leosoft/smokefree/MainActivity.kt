@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
@@ -65,6 +66,8 @@ class MainActivity : ComponentActivity() {
                     val coroutineScope = rememberCoroutineScope()
                     val navigationCount = remember { mutableStateOf(0) }
                     val lastRoute = remember { mutableStateOf<String?>(null) }
+                    val launchTimestamp = remember { System.currentTimeMillis() }
+                    val lastInterstitialTimestamp = remember { mutableLongStateOf(0L) }
 
                     if (!onboardingCompleted) {
                         OnboardingScreen(onComplete = {
@@ -94,8 +97,15 @@ class MainActivity : ComponentActivity() {
                             if (currentRoute != null && currentRoute != lastRoute.value) {
                                 if (lastRoute.value != null) {
                                     navigationCount.value += 1
-                                    if (navigationCount.value % 5 == 0) {
-                                        activity?.let { interstitialAdManager.show(it) }
+                                    val now = System.currentTimeMillis()
+                                    val enoughNavTransitions = navigationCount.value % 12 == 0
+                                    val appWarmedUp = (now - launchTimestamp) >= 45_000L
+                                    val interstitialCooldownPassed = (now - lastInterstitialTimestamp.longValue) >= 90_000L
+                                    if (enoughNavTransitions && appWarmedUp && interstitialCooldownPassed) {
+                                        activity?.let {
+                                            interstitialAdManager.show(it)
+                                            lastInterstitialTimestamp.longValue = now
+                                        }
                                     }
                                 }
                                 lastRoute.value = currentRoute
