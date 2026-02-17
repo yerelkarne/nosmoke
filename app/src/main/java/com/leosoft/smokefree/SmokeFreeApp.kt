@@ -13,9 +13,10 @@ class SmokeFreeApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        NotificationHelper.createChannel(this)
 
         applicationScope.launch {
+            NotificationHelper.createChannel(this@SmokeFreeApp)
+
             val database = AppContainer.provideDatabase(this@SmokeFreeApp)
             val seedLoader = SeedDataLoader(this@SmokeFreeApp)
             val achievementRepo = AppContainer.achievementRepository(this@SmokeFreeApp)
@@ -28,8 +29,8 @@ class SmokeFreeApp : Application() {
                 healthRepo.insertMilestones(seedLoader.loadHealthMilestones())
             }
             AppContainer.achievementEngine(this@SmokeFreeApp).evaluate()
-        }
 
-        WorkScheduler.scheduleNotifications(this)
+            WorkScheduler.scheduleNotifications(this@SmokeFreeApp)
+        }
     }
 }
